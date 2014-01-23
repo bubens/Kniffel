@@ -1,0 +1,47 @@
+Params for http://unpunk.de/kniffel/list/index.php:
+
+get=[all|month=[MMYY]|name=[$NAME]|days=[X]|last=[X]]:
+	all: all entries
+	month=mmyy: all entries from specified month
+	name=$NAME: entries by $NAME
+	days=X: all entries from the last X days
+	last=X: last X entries
+ATTENTION: list of entries only contain the top entries per username. see "best"-param for all entries.
+DEFAULT: get=all
+EXAMPLE: http://unpunk.de/kniffel/list/index.php?get=month=0311 -> all entries played in march 2011.
+
+best=[t|f]:
+	t: show only the best highscores per username
+	f: show all highscores per username
+DEFAULT: best=t
+EXAMPLE: http://unpunk.de/kniffel/list/index.php?best=f -> all entries per username
+
+top=[X|all]:
+	all: show all entries from selection
+	X: show the top X entries from selection
+DEFAULT: top=all
+EXAMPLE: http://unpunk.de/kniffel/list/index.php?top=3 -> show top 3 highscores from default selection
+
+format=[html|text|json]:
+	html: send as html
+	text: send as basic text
+	json: send as json-object
+DEFAULT: format=html
+EXAMPLE: http://unpunk.de/kniffel/list/index.php?format=text -> sends list as text
+
+record=[t|f]
+	t: send a record of the game with every entry
+	f: send entry-data only
+ATTENTION: applies only to requests with format=json
+DEFAULT: record=f
+EXAMPLE: http://unpunk.de/kniffel/list/index.php?format=json&record=f -> send default selection as json without record
+
+EXAMPLE 1:
+http://unpunk.de/kniffel/list/index.php?get=name=bubens&best=f&top=10&format=text
+-> get the all time top ten by bubens as text
+
+EXAMPLE 2:
+http://unpunk.de/kniffel/list/index.php?get=last=10&best=f&format=json
+-> get the last 10 entries as json
+
+
