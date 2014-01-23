@@ -92,6 +92,14 @@ function create_month_switcher($month = 0, $year = 0) {
 	$month_after;
 	$year_after;
 	
+	/* Keep the current URL (incl. param) when switching to another month */
+	$url = "http://unpunk.de/kniffel/list/index.php?";
+	foreach ($_GET as $key => $value) {
+		if ($key != "get") {
+			$url .= $key."=".$value."&";
+		}
+	}
+	
 	if ($month == 0) {
 		$month = (int)date("n");
 	}
@@ -118,18 +126,18 @@ function create_month_switcher($month = 0, $year = 0) {
 		$year_after = lead_zero($year);
 	}
 	
-	$html_before = "<span class='before'><a title='Zurück' href='./?get=month=$month_before$year_before'>&lt;&lt;</a></span>";
+	$html_before = "<span class='before'><a title='Zurück' href='".$url."get=month=$month_before$year_before'>&lt;&lt;</a></span>";
 	$html_current = "<span class='current'>$month_written &apos;$year</span>";
 	
 	if ($month == $current_month && $year == $current_year) {
 		$html_after = "<span class='after'>&gt;&gt;</span>";
 	}
 	else {
-		$html_after = "<span class='after'><a title='Vor' href='./?get=month=$month_after$year_after'>&gt;&gt;</a></span>";
+		$html_after = "<span class='after'><a title='Vor' href='".$url."get=month=$month_after$year_after'>&gt;&gt;</a></span>";
 	}
 	
 	
-	return "<div class='switcher'>$html_before $html_current $html_after</div>";	
+	return "<div class='switcher' id='month-switch'>$html_before $html_current $html_after</div>";	
 };
 
 function what_month($month = 0) {
@@ -148,6 +156,29 @@ function what_month($month = 0) {
 	"Dezember");
 	return $data[$month];
 };
-	
+
+function create_best_switch() {
+	/* Keep the current URL (incl. param) when switching to another month */
+	$url = "http://unpunk.de/kniffel/list/index.php?";
+	foreach ($_GET as $key => $value) {
+		if ($key != "best") {
+			$url .= $key."=".$value."&";
+		}
+		else {
+			$best = $value;
+		}
+	}
+		
+	$class_on = "";
+	$class_off = "";
+	if ($best == "t") {
+		$class_on = "class='best-current'";
+	}
+	else {
+		$class_off = "class='best-current'";
+	}
+		
+	return "<div class='switcher' id='best-switch'><span id='best-on' ".$class_on."><a href='".$url."best=t' title='Zeige nur die Besten Einträge pro Spieler an'>Top Einträge</a></span> <span id='best-off' ".$class_off."><a href='".$url."best=f' title='Zeige alle Einträge pro Spieler an'>Alle Einträge</a></span></div>";
+}
 
 ?>

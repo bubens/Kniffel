@@ -127,7 +127,9 @@ else {
 		<h2>Highscores</h2>
 		<div id="feed"><a href="feed.xml" title="Alle Einträge als RSS-Feed abonnieren"><img src="../media/feed.png" /></a></div>
 		'.create_month_switcher($month, $year).'
+		'.create_best_switch($BEST, $month, $year).'
 	</div>
+	<a id="etc_link_analyze" class="etc_link" href="./analyse">Highscore Statistik</a>
 	<a id="etc_link_kniffel" class="etc_link" href="../" title="Zur Highscore-Liste">Zurück zu Kniffel</a>
 	<a id="etc_link_unpunk" class="etc_link" href="http://unpunk.de" title="Zu unpunk.de">Zurück zu unpunk.de</a>
 </div>

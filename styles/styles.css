@@ -321,40 +321,16 @@ noscript div,
 	text-align: center;
 	}
 
-#navigation table {
-	width: 100%;
-	}
-
-#navigation table tr td {
-	text-align: center;
-	padding: 10px;
-	border: ridge 2px #121212;
-	background: #dec197;
-	}
-
-#navigation table tr td a {
-	width: 100%;
-	height: 100%;
-	font-size: 1.2em;
-	font-weight: bold;
-	text-decoration: none;
-	}
-#navigation table tr td.month_now {
-	background: #B4C165;
-	}
-
-#navigation table tr td.month_shown {
-	background: #8F7C61;
-	}
-
 #navigation .switcher {
 	position: relative;
 	top: -25px;
+	height: 30px;
 	border: 1px solid #BC9F75;
 	border-radius: 10px;
-	padding: 5px;
 	font-size: 14pt;
-	text-align: center;
+	overflow: hidden;
+	background-color: #E9DAC6;
+	margin-bottom: 5px;
 	}
 
 #navigation .switcher a {
@@ -365,7 +341,55 @@ noscript div,
 #navigation .switcher a:hover {
 	background-color: #BC9F75;
 	}
-	
+
+#navigation .switcher#month-switch span {
+	text-align: center;
+	display: inline-block;
+	height: 100%;
+	}
+
+#navigation .switcher#month-switch span.before {
+	width: 23%;
+	}
+
+#navigation .switcher#month-switch span.current {
+	width: 48%;
+}
+
+#navigation .switcher#month-switch span.after {
+	width: 23%;
+}
+
+#navigation .switcher#month-switch span a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	}
+
+#navigation .switcher#best-switch span {
+	display: inline-block;
+	height: 100%;
+	width: 48%;
+	font-size: 10pt;
+	text-align: center;
+}
+
+#navigation .switcher#best-switch span.best-current a {
+	background-color: #CDB086;
+	}
+
+#navigation .switcher#best-switch span#best-off {
+	border-left: 1px solid #BC9F75;
+	}
+
+
+#navigation .switcher#best-switch span a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+
+
 
 #container .list_header {
 	font-size: 2em;
