@@ -15,7 +15,7 @@ else {
 	$NAME = False;
 };
 
-$isAjax = isset($_SERVER["HTTP_X_REQUESTED_WITH"]);
+$isAjax = $_SERVER["HTTP_X_REQUESTED_WITH"];
 
 $GET = check_and_set($_GET["get"], "default", "check_get");
 $TOP = check_and_set($_GET["top"], "all", "check_number");
@@ -48,7 +48,6 @@ else if (preg_match("/days=\d+/", $GET)) {
 else if (preg_match("/last=\d+/", $GET)) {
 	$list = explode("=", $GET);
 	$x = (int)$list[1];
-	#var_dump($list);
 	$highscore->last_entries($x, False);
 };
 
@@ -65,16 +64,13 @@ if ($FORMAT == "text") {
 	echo $highscore->dump_as_text();
 }
 else if ($FORMAT == "json") {
-	#header("Content-Type: application/x-json");
 	header("Content-Type: text/javascript");
 	echo $highscore->dump_as_json(($RECORD == "t"));
 }
 else {
-	#header("Content-Type: application/xml");
 	header("Content-Type: text/html");
-	#var_dump($highscore->dump());
 	$html = $highscore->dump_as_html();
-	if (!$isAjax) {
+	if ($isAjax != "XMLHttpRequest") {
 		$general = new HighscoreDB("highscore.xml");
 		$data = "<ul>";
 		$data = $data.'<li>Insgesamt '.count($general->dump()).' Einträge mit durchschnittlich '.$general->average().' Punkten</li>';
