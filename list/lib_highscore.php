@@ -12,18 +12,67 @@ function check_and_set ($attr, $default, $filter) {
 		};
 	};
 	return $default;
-};
+}
 
 function check_get ($get) {
-	return (bool)preg_match("/^def|all|month=\d+|name=\w+|days=\d+|last=\d+$/", $get);
-};
+	return (bool)preg_match("/^def|all|month=\d\d\d\d|name=\w+|days=\d+|last=\d+$/", $get);
+}
+
+
+/* parse filter: array("filter"=>[filter option], "value"=>[filter value])
+* filter option: check "list/doc.txt" for options
+* filter value: see table
+* 	+-----------+---------------------------+
+* 	|	option	|		value				|
+* 	+-----------+---------------------------+
+* 	|	default	|		NULL				|
+* 	|	all		|		NULL				|
+* 	|	month	|	array(2) {				|
+*	|			|		["month"]=>			|
+* 	|			|			int(2)[month]	|
+* 	|			|		["year"]=>			|
+* 	|			|			int(2)[year]	|
+* 	|			|	}						|
+* 	|	name	|	string(<=8) [name]		|
+* 	|	days	|	int [days]				|
+* 	|	last	|	int [entries]			|
+* 	+-----------+---------------------------+
+*/
+function parse_get($string) {
+	if (preg_match("/^month=\d+$/", $string)) {
+		$filter = "month";
+		$value = str_split(explode("=", $string)[1], 2);
+		$value = array("month"=>(int)$value[0], "year"=>(int)$value[1]);
+	}
+	else if (preg_match("/^name=[\w\d]+$/", $string)) {
+		$filter = "name";
+		$value = explode("=", $string)[1];
+	}
+	else if (preg_match("/^days=\d+$/", $string)) {
+		$filter = "days";
+		$value = (int)explode("=", $string)[1];
+	}
+	else if (preg_match("/^last=\d+$/", $string)) {
+		$filter = "last";
+		$value = (int)explode("=", $string)[1];
+	}
+	else if ($string == "all") {
+		$filter = "all";
+		$value = NULL;
+	}
+	else {
+		$filter = "default";
+		$value = NULL;
+	}	
+	return array("filter"=>$filter, "value"=>$value);
+}
 
 function check_number ($number) {
 	return (is_numeric($number) || ($number == "all"));
 };
 
-function check_format ($format) {
-	return ($format == "html" || $format == "json" || $format == "text");
+function check_format ($f) {
+	return ($f == "html" || $f == "json" || $f == "text" || $f == "xml" || $f == "csv");
 };
 
 function check_best ($best) {
@@ -32,7 +81,7 @@ function check_best ($best) {
 
 function checkName($name) {
 	$l = count($name);
-	if ($l > 0 && $l <= 8 && preg_match("/^[\wäöüÄÖÜ]+$/", $name)) {
+	if ($l > 0 && $l <= 8 && preg_match("/^[\w\d]+$/", $name)) {
 		return $name;
 	}
 	else {
@@ -59,24 +108,191 @@ function checkRecord($record) {
 	};
 };
 
+function transform_mysql_to_assoc($result) {
+	$assoc = array();
+	while ($row = $result->fetch_assoc()) {
+		$row["points"] = (int)$row["points"];
+		$row["date"] = (int)$row["date"];
+		array_push($assoc, $row);
+	}
+	return $assoc;
+}
+
+function highest_per_user($list) {
+	$users = array();
+	$newlist = array();
+	foreach ($list as $entry) {
+		if (!in_array($entry["name"], $users)) {
+			array_push($users, $entry["name"]);
+			array_push($newlist, $entry);
+		}
+	}
+	return $newlist;
+}
+
+function get_average($mysql) {
+	$result = $mysql->query("SELECT ROUND(AVG(points)) AS avg FROM scores;");
+	if (!$result) {
+		die("Fehler bei der Datenbankabfrage: ".$mysql->error);
+	}
+	return $result->fetch_array()["avg"];
+}
+
+function get_number($mysql) {
+	$result = $mysql->query("SELECT COUNT(points) AS x FROM scores;");
+	if (!$result){
+		die("Fehler bei der Datenbankabfrage: ".$mysql->error);
+	}
+	return $result->fetch_array()["x"];
+}
+
+function get_last($mysql) {
+	$result = $mysql->query("SELECT name, points, UNIX_TIMESTAMP(date) AS date FROM scores ORDER BY id DESC LIMIT 1;");
+	if (!$result){
+		die("Fehler bei der Datenbankabfrage: ".$mysql->error);
+	}
+	return $result->fetch_assoc();
+}
+
+function make_text($list) {
+	$l = count($list);
+	$text = "";
+	
+	for ($i = 0; $i < $l; $i += 1) {
+		$entry = $list[$i];
+		$text .= ($i + 1).". ";
+		$text .= $entry["name"].": ";
+		$text .= $entry["points"]." ";
+		$text .= "(".twitterfy_date($entry["date"]).")\n";
+	}
+	$text .= "created: ".date("D, d M Y H:i:s");
+	
+	return $text;
+}
+
+function make_xml($list) {
+	$xml = "<?xml version='1.0' encoding='utf-8' standalone='yes'?><scores><list>";
+	foreach ($list as $entry) {
+		$xml .= "<entry gid='".$entry["gid"]."'>";
+		$xml .= "<name>".$entry["name"]."</name>";
+		$xml .= "<points>".$entry["points"]."</points>";
+		$xml .= "<date>".twitterfy_date($entry["date"])."</date>";
+		if ($record = $entry["record"]) {
+			$xml .= "<record>".$record."</record>";
+		}
+		$xml .= "</entry>";
+	}
+	$xml .= "</list></scores>";
+	return $xml;
+}
+
+function make_csv($list) {
+	$csv = "ID;NAME;POINTS;DATE";
+	if ($list[0]["record"]) {
+		$csv .= ";RECORD";
+	}
+	$csv .= "\n";
+	
+	foreach ($list as $entry) {
+		$csv .= $entry["gid"].";";
+		$csv .= $entry["name"].";";
+		$csv .= $entry["points"].";";
+		$csv .= date("Y-M-d H:i:s", $entry["date"]);
+		if ($record = $entry["record"]) {
+			$csv .= ";".$record;
+		}
+		$csv .= "\n";
+	}
+	
+	return $csv;
+}
+
 function lead_zero($x) {
 	return ($x > 9) ?$x :"0".$x;
 };
 
-function sync_the_feed($name, $points, $date, $gid) {
-	$feed = simplexml_load_file("feed.xml");
-	$item = $feed->channel->addChild("item");
-	$item->addChild("title", "$name: $points");
-	$item->addChild("description", "Neuer Eintrag von $name am ".date("d.m.y H:i", (int)$date)." mit $points Punkten");
-	$item->addChild("link", "http://www.unpunk.de/kniffel/?gid=$gid");
-	$item->addChild("author", "kniffel@unpunk.de");
-	$guid = $item->addChild("guid", "http://www.unpunk.de/kniffel/?gid=$gid");
-	$guid->addAttribute("isPermaLink", "true");
-	$item->addChild("pubDate", date("r", (int)$date));
-	$feed->channel->pubDate[0] = date("r", time());
-	$feed->asXML("feed.xml");
-};
+function twitterfy_date ($d) {
+	$dif_s = time() - (int)$d;
+	
+	$dif_m = (int)($dif_s/60);
+	$dif_h = (int)($dif_m/60);
+	$dif_d = (int)($dif_h/24);
+	$dif_w = (int)($dif_d/7);
+	$dif_y = (int)($dif_w/53);
 
+	if ($dif_s < 60) {
+		return "gerade eben";
+	}
+	else if ($dif_s < 120) {
+		return "vor 1 Minute";
+	}
+	else if ($dif_s < 60*60) {
+		return "vor $dif_m Minuten";
+	}
+	else if ($dif_s < 7200) {
+		return "vor 1 Stunde";
+	}
+	else if ($dif_s < 86400) {
+		return "vor $dif_h Stunden";
+	}
+	else if ($dif_d == 1) {
+		return "Gestern";
+	}
+	else if ($dif_d < 7) {
+		return "vor $dif_d Tagen";
+	}
+	else if ($dif_w < 4) {
+		return "vor $dif_w Wochen";
+	}
+	else {
+		return beautify_date($d, False);
+	}
+}
+
+function beautify_date ($n, $f) {
+	if (!$f) {
+		return date("d.m.y - H:i", (int)$n);
+	}
+	else {
+		return date("r", (int)$n);
+	}
+}
+
+function get_month_name($month = 0) {
+	$data = array("Foo",
+	"Januar",
+	"Februar",
+	"März",
+	"April",
+	"Mai",
+	"Juni",
+	"Juli",
+	"August",
+	"September",
+	"Oktober",
+	"November",
+	"Dezember");
+	return $data[$month];
+}
+
+function create_list($list) {
+	$html = file_get_contents("templates/list.template.html");
+	$entry_string = file_get_contents("templates/entry.template.html");
+	$entries = "";
+	$l = count($list);
+	for ($i = 0; $i < $l; $i += 1) {
+		$item = $list[$i];
+		$entry = str_replace("%rank%", $i + 1, $entry_string);
+		$entry = str_replace("%gid%", $item["gid"], $entry);
+		$entry = str_replace("%name%", $item["name"], $entry);
+		$entry = str_replace("%points%", $item["points"], $entry);
+		$entry = str_replace("%date%", twitterfy_date($item["date"]), $entry);
+		$entries .= $entry."\n";
+	}
+	$html = str_replace("%list%", $entries, $html);
+	return $html;
+}
+	
 function create_month_switcher($month = 0, $year = 0) {
 	$current_month = (int)date("n");
 	$current_year = (int)date("y");
@@ -106,7 +322,7 @@ function create_month_switcher($month = 0, $year = 0) {
 	if ($year == 0) {
 		$year = (int)date("y");
 	}
-	$month_written = what_month($month);
+	$month_written = get_month_name($month);
 	
 	if ($month == 1) {
 		$month_before = 12;
@@ -140,24 +356,7 @@ function create_month_switcher($month = 0, $year = 0) {
 	return "<div class='switcher' id='month-switch'>$html_before $html_current $html_after</div>";	
 };
 
-function what_month($month = 0) {
-	$data = array("Foo",
-	"Januar",
-	"Februar",
-	"März",
-	"April",
-	"Mai",
-	"Juni",
-	"Juli",
-	"August",
-	"September",
-	"Oktober",
-	"November",
-	"Dezember");
-	return $data[$month];
-};
-
-function create_best_switch() {
+function create_best_switcher() {
 	/* Keep the current URL (incl. param) when switching to another month */
 	$url = "http://unpunk.de/kniffel/list/index.php?";
 	foreach ($_GET as $key => $value) {

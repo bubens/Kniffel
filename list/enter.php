@@ -2,12 +2,15 @@
 
 session_start();
 
-include "class_highscore.php";
 include "lib_highscore.php";
 
-$message = "";
-$status = "";
-$highscore = new HighscoreDB("highscore.xml");
+$mysql = new mysqli("localhost", "root", "actionaction", "kniffel");
+if ($mysql->connect_errno) {
+	die("Fehler bei der Verbindung mit der Datenbank:<br>".$mysql->connect_error);
+}
+
+$response = array("status"=>"error", "message"=>"unknown error");
+
 
 # hat das spiel lange genug gedauert?
 if (isset($_SESSION["t_game_start"])) {
@@ -32,37 +35,40 @@ if ($requested_with == "XMLHttpRequest" && $game_time > 60) {
 		$name = checkName($_POST["n"]);
 		$points = checkPoints($_POST["p"]);
 		$record = checkRecord($_POST["r"]);
-		$date = time();
-		$gid = uniqid();
+		
 		if ($name && $points && $record) {
-			$highscore->add_entry($name, $points, $date, $record, $gid);
-			sync_the_feed($name, $points, $date, $gid);
-			$status = "success";
-			$message = $gid;
+			$query = "INSERT INTO scores (name, points, record) VALUES ";
+			$query .= "('".$name."', ".$points.", '".$record."');";
+			$result = $mysql->query($query);
+			
+			if (!$result) {
+				$response["message"] = "database error";
+			}
+			else {
+				$response["status"] = "success";
+				$response["message"] = $mysql->query("SELECT MAX(id) AS id FROM scores;")->fetch_array()["id"];
+			}
+			
 			$_SESSION["t_game_start"] = time();
 		}
 		else {
-			$status = "error";
-			$message = "checkfail";
+			$response["message"] = "checkfail";
 		}
 	}
 	
 	
 }
 else if ($game_time <= 60) {
-	$status = "error";
-	$message = "too fast";
+	$response["message"] = "too fast";
 }
 else if ($requested_with != "XMLHttpRequest") {
-	$status = "error";
-	$message = "no uh uhh";
+	$response["message"] = "no uh uhh";
 }
 else {
-	$status = "error";
-	$response = "unknown error";
+	$response["message"] = "unknown error";
 };
 
 header("Content-Type: application/x-json");
 #var_dump($_SERVER);
-echo "{\"status\":\"$status\",\"message\":\"$message\"}";
+echo json_encode($response);
 ?>

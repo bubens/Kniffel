@@ -7,7 +7,7 @@ get=[all|month=[MMYY]|name=[$NAME]|days=[X]|last=[X]]:
 	days=X: all entries from the last X days
 	last=X: last X entries
 ATTENTION: list of entries only contain the top entries per username. see "best"-param for all entries.
-DEFAULT: get=all
+DEFAULT: get=month=[current month][current year]
 EXAMPLE: http://unpunk.de/kniffel/list/index.php?get=month=0311 -> all entries played in march 2011.
 
 best=[t|f]:
@@ -22,10 +22,18 @@ top=[X|all]:
 DEFAULT: top=all
 EXAMPLE: http://unpunk.de/kniffel/list/index.php?top=3 -> show top 3 highscores from default selection
 
-format=[html|text|json]:
-	html: send as html
-	text: send as basic text
-	json: send as json-object
+ordered=[t|f]:
+	t: return results ordered by points
+	f: return results ordered by date
+DEFAULT: ordered=t
+EXAMPLE: http://unpunk.de/kniffel/list/index.php?ordered=f -> show default highscores ordered by date of entry
+
+format=[html|text|json|xml|csv]:
+	html: send in html-format
+	text: send in text-format
+	xml: send in xml-format
+	csv: send in comma-seperated-value-format
+	json: send in json-format
 DEFAULT: format=html
 EXAMPLE: http://unpunk.de/kniffel/list/index.php?format=text -> sends list as text
 
@@ -41,7 +49,7 @@ http://unpunk.de/kniffel/list/index.php?get=name=bubens&best=f&top=10&format=tex
 -> get the all time top ten by bubens as text
 
 EXAMPLE 2:
-http://unpunk.de/kniffel/list/index.php?get=last=10&best=f&format=json
--> get the last 10 entries as json
+http://unpunk.de/kniffel/list/index.php?get=last=10&best=f&format=json&ordered=f
+-> get the last 10 entries ordered by date of entry as json
 
 

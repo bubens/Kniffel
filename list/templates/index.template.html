@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>roll'em - the highscores</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="content-language" content="de" />
+<link href="feed.xml" type="application/rss+xml" rel="alternate" title="roll'em - Die Liste" />
+<link href="../styles/styles.css" type="text/css" rel="stylesheet" />
+<style type="text/css">
+#feed img {
+	border : 0;
+}
+
+#feed {
+	position : relative;
+	top : -33px;
+	left : 250px;
+	
+}
+</style>
+<script type="text/javascript" src="scripts/util.js"></script>
+</head>
+<body>
+<h1>Kniffel-Maschine Highscores -  %month% 20%year%</h1>
+<div id="container">
+	<div id="list">
+	%list_html%
+	</div>
+</div>
+<div id="etc">
+	<div id="details">
+		<h2>Details</h2>
+		<ul><li>Insgesamt %entries_number% Einträge mit durchschnittlich %entries_average% Punkten</li><li><b>Letzter Eintrag:</b><br />%entry_last_name% mit %entry_last_points% (%entry_last_date%)</li></ul>		
+	</div>
+	<div id="navigation">
+		<h2>Highscores</h2>
+		<div id="feed"><a href="feed.xml" title="Alle Einträge als RSS-Feed abonnieren"><img src="../media/feed.png" /></a></div>
+		%month_switcher%
+		%best_switcher%
+	</div>
+	<a id="etc_link_analyze" class="etc_link" href="./analyse">Highscore Statistik</a>
+	<a id="etc_link_kniffel" class="etc_link" href="../" title="Zur Highscore-Liste">Zurück zu Kniffel</a>
+	<a id="etc_link_unpunk" class="etc_link" href="http://unpunk.de" title="Zu unpunk.de">Zurück zu unpunk.de</a>
+</div>
+<div id="loadtime">%loadtime%s</div>
+</body>
+</html>
