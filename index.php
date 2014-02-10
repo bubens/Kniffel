@@ -4,32 +4,32 @@ session_start();
 
 $t1 = microtime(True);
 
-include "list/class_highscore.php";
 include "list/lib_highscore.php";
-$highscore = new HighscoreDB("list/highscore.xml");
-
-$highscore->entries_this_month();
-$highscore->best_entries();
-$highscore->top_entries(10);
 
 $_SESSION["t_game_start"] = time();
 
-function checkGID ($gid) {
-	return preg_match("/^\d+$/", $gid);
-};
+$cred = file_get_contents("db/cred.json");
+$cred = json_decode($cred, True);
+$mysql = new mysqli($cred["host"], $cred["user"], $cred["password"], $cred["database"]);
 
 if (isset($_COOKIE["player"])) {
 	$_SESSION["d_player"] = $_COOKIE["player"];
 	$game_name = $_COOKIE["player"];
 };
 
-if (isset($_GET["gid"])) {
-	$replay_game = $highscore->get_entry_by_gid($_GET["gid"]);
-	if ($replay_game) {
+$gid = $_GET["gid"];
+
+if (isset($gid) && is_numeric($gid)) {
+	$replay_result = $mysql->query("SELECT name, date, record FROM scores WHERE id=".$gid.";");
+	if ($replay_result) {
+		$replay_game = $replay_result->fetch_assoc();
 		$replay_is = TRUE;
 		$replay_record = $replay_game["record"];
 		$replay_name = $replay_game["name"];
 		$replay_date = $replay_game["date"];
+	}
+	else {
+		die("Database error: ".$mysql->error);
 	}
 }
 else {
@@ -111,7 +111,7 @@ if ($replay_is) {
 	echo '
 <div id="game2">
 	<h2 class="name2">'.$replay_name.'</h2>
-	<div class="date">'.(HighscoreDB::twitterfy_date($replay_date)).'</div>
+	<div class="date">'.twitterfy_date($replay_date).'</div>
 	<ul id="sheet2">
 		<li class="entry" id="sentry_1">&nbsp;&nbsp;</li>
 		<li class="entry" id="sentry_2">&nbsp;&nbsp;</li>
@@ -158,16 +158,11 @@ if ($replay_is) {
 	<div id="highscore">
 		<h2>Highscores<img id="infoHighscore" width="20" height="20" src="media/info.png" alt="Informationen" /></h2>
 		<div id="list_container">
-<?php echo $highscore->dump_as_html();?>
+			<table id="list_highscore"></table>
 		</div>
 	</div>
 	<a id="etc_link_highscore" class="etc_link" href="list" title="Zur Highscore-Liste">Zur Highscore-Liste</a>
 	<a id="etc_link_unpunk" class="etc_link" href="http://unpunk.de" title="Zu unpunk.de">Zurück zu unpunk.de</a>
-	<a id="flattr" href="http://flattr.com/thing/47230/rollem-die-Kniffel-Maschine" target="_blank">
-		<img src="http://api.flattr.com/button/button-compact-static-100x17.png" alt="Flattr this" title="Flattr this" border="0" />
-	</a>
-
-	
 </div>
 <script type="text/javascript"><!--
 	util.browser.onie(function () {

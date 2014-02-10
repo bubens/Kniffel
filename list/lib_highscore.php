@@ -139,7 +139,7 @@ function get_average($mysql) {
 }
 
 function get_number($mysql) {
-	$result = $mysql->query("SELECT COUNT(points) AS x FROM scores;");
+	$result = $mysql->query("SELECT CAST(COUNT(points) AS UNSIGNED) AS x FROM scores;");
 	if (!$result){
 		die("Fehler bei der Datenbankabfrage: ".$mysql->error);
 	}
@@ -147,7 +147,7 @@ function get_number($mysql) {
 }
 
 function get_last($mysql) {
-	$result = $mysql->query("SELECT name, points, UNIX_TIMESTAMP(date) AS date FROM scores ORDER BY id DESC LIMIT 1;");
+	$result = $mysql->query("SELECT name, CAST(points AS UNSIGNED) AS points, UNIX_TIMESTAMP(date) AS date FROM scores ORDER BY id DESC LIMIT 1;");
 	if (!$result){
 		die("Fehler bei der Datenbankabfrage: ".$mysql->error);
 	}

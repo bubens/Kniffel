@@ -5,10 +5,13 @@
 session_start();
 $t1 = microtime(True);
 
+
 include "lib_highscore.php";
 
+$cred = file_get_contents("../db/cred.json");
+$cred = json_decode($cred, True);
+$mysql = new mysqli($cred["host"], $cred["user"], $cred["password"], $cred["database"]);
 
-$mysql = new mysqli("localhost", "root", "actionaction", "kniffel");
 
 if ($mysql->connect_errno) {
 	die("Fehler bei der Verbindung mit der Datenbank:<br>".$mysql->connect_error);
@@ -35,7 +38,7 @@ $BEST = check_and_set($_GET["best"], "t", "check_best");
 $RECORD = check_and_set($_GET["record"], "f", "check_best");
 
 // kobble together the db-query
-$query = "SELECT name, points, UNIX_TIMESTAMP(date) AS date, id AS gid";
+$query = "SELECT name, CAST(points AS UNSIGNED) AS points, UNIX_TIMESTAMP(date) AS date, id AS gid";
 if ($RECORD == "t") {
 	$query .= ", record";
 } 
