@@ -12,7 +12,6 @@ $cred = file_get_contents("../db/cred.json");
 $cred = json_decode($cred, True);
 $mysql = new mysqli($cred["host"], $cred["user"], $cred["password"], $cred["database"]);
 
-
 if ($mysql->connect_errno) {
 	die("Fehler bei der Verbindung mit der Datenbank:<br>".$mysql->connect_error);
 }

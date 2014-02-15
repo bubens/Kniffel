@@ -41,20 +41,24 @@ function check_get ($get) {
 function parse_get($string) {
 	if (preg_match("/^month=\d+$/", $string)) {
 		$filter = "month";
-		$value = str_split(explode("=", $string)[1], 2);
+		$array = explode("=", $string);
+		$value = str_split($array[1], 2);
 		$value = array("month"=>(int)$value[0], "year"=>(int)$value[1]);
 	}
 	else if (preg_match("/^name=[\w\d]+$/", $string)) {
 		$filter = "name";
-		$value = explode("=", $string)[1];
+		$array = explode("=", $string);
+		$value = $array[1];
 	}
 	else if (preg_match("/^days=\d+$/", $string)) {
 		$filter = "days";
-		$value = (int)explode("=", $string)[1];
+		$array = explode("=", $string);
+		$value = (int)$array[1];
 	}
 	else if (preg_match("/^last=\d+$/", $string)) {
 		$filter = "last";
-		$value = (int)explode("=", $string)[1];
+		$array = explode("=", $string);
+		$value = (int)$array[1];
 	}
 	else if ($string == "all") {
 		$filter = "all";
@@ -135,7 +139,8 @@ function get_average($mysql) {
 	if (!$result) {
 		die("Fehler bei der Datenbankabfrage: ".$mysql->error);
 	}
-	return $result->fetch_array()["avg"];
+	$array = $result->fetch_array();
+	return $array["avg"];
 }
 
 function get_number($mysql) {
@@ -143,7 +148,8 @@ function get_number($mysql) {
 	if (!$result){
 		die("Fehler bei der Datenbankabfrage: ".$mysql->error);
 	}
-	return $result->fetch_array()["x"];
+	$array = $result->fetch_array();
+	return $array["x"];
 }
 
 function get_last($mysql) {

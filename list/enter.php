@@ -4,7 +4,10 @@ session_start();
 
 include "lib_highscore.php";
 
-$mysql = new mysqli("localhost", "root", "actionaction", "kniffel");
+$cred = file_get_contents("../db/cred.json");
+$cred = json_decode($cred, True);
+$mysql = new mysqli($cred["host"], $cred["user"], $cred["password"], $cred["database"]);
+
 if ($mysql->connect_errno) {
 	die("Fehler bei der Verbindung mit der Datenbank:<br>".$mysql->connect_error);
 }
@@ -46,7 +49,8 @@ if ($requested_with == "XMLHttpRequest" && $game_time > 60) {
 			}
 			else {
 				$response["status"] = "success";
-				$response["message"] = $mysql->query("SELECT MAX(id) AS id FROM scores;")->fetch_array()["id"];
+				$array = $mysql->query("SELECT MAX(id) AS id FROM scores;")->fetch_array();
+				$response["message"] = $array["id"];
 			}
 			
 			$_SESSION["t_game_start"] = time();
