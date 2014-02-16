@@ -18,6 +18,13 @@ function check_get ($get) {
 	return (bool)preg_match("/^def|all|month=\d\d\d\d|name=\w+|days=\d+|last=\d+$/", $get);
 }
 
+function check_gid($gid) {
+	if (is_numeric($gid)) {
+		return True;
+	}
+	return False;
+}
+
 
 /* parse filter: array("filter"=>[filter option], "value"=>[filter value])
 * filter option: check "list/doc.txt" for options
