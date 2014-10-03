@@ -11,9 +11,9 @@ function transform_mysql_to_assoc($result) {
 	return $assoc;
 }
 
-$cred = file_get_contents("../../db/cred.json");
-$cred = json_decode($cred, True);
-$mysql = new mysqli($cred["host"], $cred["user"], $cred["password"], $cred["database"]);
+include "../../config/config.php";
+
+$mysql = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 if ($mysql->connect_errno) {
 	die("Fehler bei der Verbindung zur Datenbank: ".$mysql->connect_error);
@@ -53,7 +53,7 @@ foreach ($result as $item) {
 	$rss .= "\t<description>Neuer Eintrag von ".$item_name." am ".date("d.m.y \u\m H:i", $item_date)." Uhr mit ".$item_points."</description>\n";
 	$rss .= "\t<link>http://www.unpunk.de/?gid=".$item_gid."</link>\n";
 	$rss .= "\t<author>kniffel@unpunk.de</author>\n";
-	$rss .= "\t<guid isPermalink='true'>http://www.unpunk.de/?gid=".$item_gid."</guid>\n";
+	$rss .= "\t<guid isPermalink='true'>http://www.unpunk.de/kniffel/?gid=".$item_gid."</guid>\n";
 	$rss .= "\t<pubDate>".date("D, d M Y H:i:s", $item_date)."</pubDate>\n";
 	$rss .= "</item>\n";
 }
