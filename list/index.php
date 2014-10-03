@@ -7,10 +7,9 @@ $t1 = microtime(True);
 
 
 include "lib_highscore.php";
+include "../config/config.php";
 
-$cred = file_get_contents("../db/cred.json");
-$cred = json_decode($cred, True);
-$mysql = new mysqli($cred["host"], $cred["user"], $cred["password"], $cred["database"]);
+$mysql = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 if ($mysql->connect_errno) {
 	die("Fehler bei der Verbindung mit der Datenbank:<br>".$mysql->connect_error);

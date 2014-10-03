@@ -7,13 +7,12 @@ if (PHP_SAPI == "cli") {
 
 $t1 = microtime(True);
 
+include "config/config.php";
 include "list/lib_highscore.php";
 
 $_SESSION["t_game_start"] = time();
 
-$cred = file_get_contents("db/cred.json");
-$cred = json_decode($cred, True);
-$mysql = new mysqli($cred["host"], $cred["user"], $cred["password"], $cred["database"]);
+$mysql = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 $_SESSION["d_player"] = $_COOKIE["player"] or NULL;
 $game_name = $_COOKIE["player"] or "Du";
