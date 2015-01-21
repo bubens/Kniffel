@@ -98,27 +98,34 @@ if ($TOP != "all") {
 header("X-Powered-By: love and strong coffee!");
 header("Server: Redstone-x86/2.2.23 (with cows)");
 if ($FORMAT == "text") {
+	$textout = make_text($list);
 	header("Content-Type: text/plain");
-	echo make_text($list);
+	header("Content-Length: ".strlen($textplain));
+	echo $textplain;
 }
 else if ($FORMAT == "json") {
-	header("Content-Type: text/javascript");
 	$output = array("list"=>$list, "created"=>date("D, d M Y H:i:s"), "time"=>(microtime(TRUE) - $t1));
-	echo json_encode($output);
+	$jsonout = gzencode(json_encode($output));
+	
+	header("Content-Type: text/javascript");
+	header("Content-Encoding: gzip");
+	header("Content-Length: ".strlen($jsonout));
+	echo $jsonout;
 }
 else if ($FORMAT == "xml") {
 	header("Content-Type: text/xml");
 	echo make_xml($list);
 }
 else if ($FORMAT == "csv") {
+	$cvsout = make_csv($list);
 	header("Content-Type: text/csv");
 	header("Content-Disposition: attachement; filename=".date("ymd")."_rollem_scores.csv");
-	echo make_csv($list);
+	header("Content-Length: ".strlen($csvout));
+	echo make_csv($csvout);
 }
 else {
 	$last_entry = get_last($mysql);
 
-	header("Content-Type: text/html");
 	$html = file_get_contents("templates/index.template.html");
 	$html = str_replace("%month%", get_month_name($month), $html);
 	$html = str_replace("%year%", $year, $html);
@@ -131,7 +138,12 @@ else {
 	$html = str_replace("%month_switcher%", create_month_switcher($month, $year), $html);
 	$html = str_replace("%best_switcher%", create_best_switcher(), $html);
 	$html = str_replace("%loadtime%", microtime(True) - $t1, $html);
-	echo $html;
+	
+	header("Content-Type: text/html");
+	header("Content-Length: ".strlen($html));
+	header("Content-Encoding: gzip");
+	
+	echo gzencode($html);
 	
 }
 

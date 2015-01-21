@@ -70,8 +70,14 @@ else {
 	$html = str_replace("%replay_script%", "", $html);
 	$html = str_replace("%replay_name%", "", $html);
 	$html = str_replace("%replay_date%", "", $html);
-	$html = str_replace("%load_time%", microtime(True) - $t1, $html);
 }
+$html = str_replace("%load_time%", microtime(True) - $t1, $html);
+
+$html = gzencode($html);
+
+header("Content-Type: text/html");
+header("Content-Length: ".strlen($html));
+header("Content-Encoding: gzip");
 
 echo $html;
 

@@ -48,6 +48,7 @@
 	},
 		
 	handleData = function (data, status, req) {
+		alert(data);
 		if (status == "success") {
 			list = data.list;
 			listlength = list.length;
