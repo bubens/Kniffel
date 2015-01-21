@@ -130,6 +130,7 @@ else {
 	$html = str_replace("%entry_last_date%", twitterfy_date($last_entry["date"]), $html);
 	$html = str_replace("%month_switcher%", create_month_switcher($month, $year), $html);
 	$html = str_replace("%best_switcher%", create_best_switcher(), $html);
+	$html = str_replace("%loadtime%", microtime(True) - $t1, $html);
 	echo $html;
 	
 }
