@@ -130,7 +130,6 @@ kniffel.Bonus = function (id) {
 		given = false;
 		value = 0;
 		stack = [];
-		x = 0;
 		this.element.innerHTML = "  ";
 	};
 };

@@ -300,6 +300,7 @@ function create_list($list) {
 		$entry = str_replace("%name%", $item["name"], $entry);
 		$entry = str_replace("%points%", $item["points"], $entry);
 		$entry = str_replace("%date%", twitterfy_date($item["date"]), $entry);
+		$entry = str_replace("%exactdate%", beautify_date($item["date"]), $entry);
 		$entries .= $entry."\n";
 	}
 	$html = str_replace("%list%", $entries, $html);

@@ -6,7 +6,7 @@ get=[all|month=[MMYY]|name=[$NAME]|days=[X]|last=[X]]:
 	name=$NAME: entries by $NAME
 	days=X: all entries from the last X days
 	last=X: last X entries
-ATTENTION: list of entries only contain the top entries per username. see "best"-param for all entries.
+ATTENTION: if best-query isn't set to 'f' (false) the list of entries will only contain the top entries per username. see "best"-param for all entries.
 DEFAULT: get=month=[current month][current year]
 EXAMPLE: http://unpunk.de/kniffel/list/index.php?get=month=0311 -> all entries played in march 2011.
 

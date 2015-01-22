@@ -98,10 +98,12 @@ if ($TOP != "all") {
 header("X-Powered-By: love and strong coffee!");
 header("Server: Redstone-x86/2.2.23 (with cows)");
 if ($FORMAT == "text") {
-	$textout = make_text($list);
+	$textout = gzencode(make_text($list));
+	
 	header("Content-Type: text/plain");
-	header("Content-Length: ".strlen($textplain));
-	echo $textplain;
+	header("Content-Encoding: gzip");
+	header("Content-Length: ".strlen($textout));
+	echo $textout;
 }
 else if ($FORMAT == "json") {
 	$output = array("list"=>$list, "created"=>date("D, d M Y H:i:s"), "time"=>(microtime(TRUE) - $t1));
@@ -113,15 +115,21 @@ else if ($FORMAT == "json") {
 	echo $jsonout;
 }
 else if ($FORMAT == "xml") {
+	$xmlout = gzencode(make_xml($list));
+	
 	header("Content-Type: text/xml");
-	echo make_xml($list);
+	header("Content-Encoding: gzip");
+	header("Content-Length: ".strlen($xmlout));
+	echo $xmlout;
 }
 else if ($FORMAT == "csv") {
-	$cvsout = make_csv($list);
+	$csvout = gzencode(make_csv($list));
+	
 	header("Content-Type: text/csv");
 	header("Content-Disposition: attachement; filename=".date("ymd")."_rollem_scores.csv");
+	header("Content-Encoding: gzip");
 	header("Content-Length: ".strlen($csvout));
-	echo make_csv($csvout);
+	echo $csvout;
 }
 else {
 	$last_entry = get_last($mysql);
