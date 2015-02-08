@@ -44,6 +44,12 @@ ATTENTION: applies only to requests with format=json
 DEFAULT: record=f
 EXAMPLE: http://unpunk.de/kniffel/list/index.php?format=json&record=f -> send default selection as json without record
 
+compress=[t|f]
+	t: send data gz-compressed
+	f: don't
+DEFAULT: compress=t
+EXAMPLE: http://unpunk.de/kniffel/list/index.php?get=all&format=csv&compress=f -> send all as uncompressed csv
+
 EXAMPLE 1:
 http://unpunk.de/kniffel/list/index.php?get=name=bubens&best=f&top=10&format=text
 -> get the all time top ten by bubens as text

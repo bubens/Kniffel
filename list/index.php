@@ -34,6 +34,7 @@ $TOP = check_and_set($_GET["top"], "all", "check_number");
 $FORMAT = check_and_set($_GET["format"], "html", "check_format");
 $BEST = check_and_set($_GET["best"], "t", "check_best");
 $RECORD = check_and_set($_GET["record"], "f", "check_best");
+$COMPRESS = check_and_set($_GET["compress"], "t", "check_compress");
 
 // kobble together the db-query
 $query = "SELECT name, CAST(points AS UNSIGNED) AS points, UNIX_TIMESTAMP(date) AS date, id AS gid";
@@ -98,24 +99,37 @@ if ($TOP != "all") {
 header("X-Powered-By: love and strong coffee!");
 header("Server: Redstone-x86/2.2.23 (with cows)");
 if ($FORMAT == "text") {
-	$textout = gzencode(make_text($list));
+	$textout = make_text($list);
+	
+	if ($COMPRESS == "t") {
+		header("Content-Encoding: gzip");
+		$textout = gzencode($textout);
+	}
 	
 	header("Content-Type: text/plain");
-	header("Content-Encoding: gzip");
 	header("Content-Length: ".strlen($textout));
 	echo $textout;
 }
 else if ($FORMAT == "json") {
 	$output = array("list"=>$list, "created"=>date("D, d M Y H:i:s"), "time"=>(microtime(TRUE) - $t1));
-	$jsonout = gzencode(json_encode($output));
+	$jsonout = json_encode($output);
+	
+	if ($COMPRESS == "t") {
+		header("Content-Encoding: gzip");
+		$jsonout = gzencode($jsonout);
+	}
 	
 	header("Content-Type: text/javascript");
-	header("Content-Encoding: gzip");
 	header("Content-Length: ".strlen($jsonout));
 	echo $jsonout;
 }
 else if ($FORMAT == "xml") {
-	$xmlout = gzencode(make_xml($list));
+	$xmlout = make_xml($list);
+	
+	if ($COMPRESS == "t") {
+		header("Content-Encoding: gzip");
+		$xmlout = gzencode($xmlout);
+	}
 	
 	header("Content-Type: text/xml");
 	header("Content-Encoding: gzip");
@@ -123,7 +137,12 @@ else if ($FORMAT == "xml") {
 	echo $xmlout;
 }
 else if ($FORMAT == "csv") {
-	$csvout = gzencode(make_csv($list));
+	$csvout = make_csv($list);
+
+	if ($COMPRESS == "t") {
+		header("Content-Encoding: gzip");
+		$csvout = gzencode(make_csv($list));
+	}
 	
 	header("Content-Type: text/csv");
 	header("Content-Disposition: attachement; filename=".date("ymd")."_rollem_scores.csv");
@@ -149,10 +168,13 @@ else {
 	
 	header("Content-Type: text/html");
 	header("Content-Length: ".strlen($html));
-	header("Content-Encoding: gzip");
 	
-	echo gzencode($html);
+	if ($COMPRESS == "t") {
+		header("Content-Encoding: gzip");
+		$html = gzencode($html);
+	}
 	
+	echo $html;	
 }
 
 ?>

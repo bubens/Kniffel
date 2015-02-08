@@ -29,21 +29,21 @@ function check_gid($gid) {
 /* parse filter: array("filter"=>[filter option], "value"=>[filter value])
 * filter option: check "list/doc.txt" for options
 * filter value: see table
-* 	+-----------+---------------------------+
+* 	+-----------+---------------------------------------------------+
 * 	|	option	|		value				|
-* 	+-----------+---------------------------+
-* 	|	default	|		NULL				|
-* 	|	all		|		NULL				|
+* 	+-----------+---------------------------------------------------+
+* 	|	default	|	NULL					|
+* 	|	all	|	NULL					|
 * 	|	month	|	array(2) {				|
-*	|			|		["month"]=>			|
-* 	|			|			int(2)[month]	|
-* 	|			|		["year"]=>			|
-* 	|			|			int(2)[year]	|
-* 	|			|	}						|
-* 	|	name	|	string(<=8) [name]		|
+*	|		|		["month"]=>			|
+* 	|		|			int(2)[month]		|
+* 	|		|		["year"]=>			|
+* 	|		|			int(2)[year]		|
+* 	|		|	}					|
+* 	|	name	|	string(<=8) [name]			|
 * 	|	days	|	int [days]				|
-* 	|	last	|	int [entries]			|
-* 	+-----------+---------------------------+
+* 	|	last	|	int [entries]				|
+* 	+-----------+---------------------------------------------------+
 */
 function parse_get($string) {
 	if (preg_match("/^month=\d+$/", $string)) {
@@ -88,6 +88,10 @@ function check_format ($f) {
 
 function check_best ($best) {
 	return ($best == "t" || $best == "f");
+};
+
+function check_compress ($compress) {
+	return ($compress == "t" || $compress == "f");
 };
 
 function checkName($name) {
