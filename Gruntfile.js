@@ -15,7 +15,7 @@ module.exports = function (grunt) {
 			list: ["styles/core.css", "styles/list.*.css", "styles/aside.css"]
 		},
 		index: {
-			index: ["index/index.php"],
+			index: ["index/index.php", "index/php.ini"],
 			templates: ["index/templates/*.template.html", "index/templates/*.template.js", "index/templates/.htaccess", "index/templates/index.php"]
 		},
 		list: {
