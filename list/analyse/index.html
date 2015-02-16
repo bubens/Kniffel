@@ -8,7 +8,21 @@
 	<meta http-equiv="content-language" content="de" />
 	<link href="styles/desktop.css" type="text/css" rel="stylesheet" />
 	<script type="text/javascript" src="http://jquery.unpunk.de/1.8.3.js.gz"></script>
-	<script type="text/javascript" src="../../scripts/?extensions.js"></script>
+	<script type="text/javascript">
+		Array.prototype.max = function () {
+			var i, l, x,
+			t = 0;
+			for (i = 0, l = this.length; i < l ; i += 1) {
+				x = this[i];
+				if (!isNaN(x)) {
+					if (x > t) {
+						t = x;
+					}
+				}
+			}
+			return t;
+		};
+	</script>
 	<style type="text/css">
 	body {
 		font-size: 10pt;
@@ -34,6 +48,6 @@
 <h1>Ausführliche Analyse (in Echtzeit)</h1>
 <ul id="results">
 </ul>
-<script type="text/javascript" src="../../scripts/?analyse.js=dev"></script>
+<script type="text/javascript" src="analyse.js"></script>
 </body>
 </html>

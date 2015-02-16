@@ -1,8 +1,5 @@
-"use strict";
-
-if (!window.kniffel) {
-	var kniffel = {};
-}
+/* jshint strict:true */
+/* global util */
 
 kniffel.constants = {
 	IS_3_OF_A_KIND : 3,
@@ -14,6 +11,7 @@ kniffel.constants = {
 };
 
 kniffel.kniffel = (function (kniffel, global) {
+	"use strict";
 	var $public = {},
 	$private = {};
 	
@@ -314,7 +312,7 @@ kniffel.kniffel = (function (kniffel, global) {
 						kniffel.loader.hide();
 					}
 				}
-			}
+			};
 			$private.highscore.request.send(param);
 		}
 		else {
@@ -349,7 +347,7 @@ kniffel.kniffel = (function (kniffel, global) {
 			$private.flags.replay = true;
 			$private.replay.name = kniffel.challenge.name;
 			$private.replay.record = $private.replay.init(kniffel.challenge.game);
-		};
+		}
 		
 		
 		// begin initializing objects

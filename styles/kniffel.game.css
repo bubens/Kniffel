@@ -1,0 +1,102 @@
+#container,
+#kniffel {
+	position: absolute;
+	top: 50px;
+	left: 40px;
+	background: #faebd7;
+	border: solid 2px #000;
+	border-radius: 20px;
+	padding: 10px;
+	height: 560px;
+	}
+
+
+#dicesArray {
+	list-style-type: none;
+	float: left;
+	margin-right: 20px;
+	}
+
+.dice {
+	border: solid #000 2px;
+	height: 80px;
+	width: 80px;
+	margin: 10px;
+	}
+
+
+#game,
+#game2 {
+	width: 200px;
+	float: left;
+	margin: 10px 20px 0 0;
+	}
+
+#game2 {
+	color: #9b9b9b;
+	width: 100px;
+	}
+
+#date2 {
+	font-size: .8em;
+	}
+
+#game ul li,
+#game2 ul li {
+	line-height: 1.5em;
+	width: 100%;
+	padding-left: 5px;
+	border-bottom: solid 1px #000;
+	border-left: solid 1px #000;
+	}
+	
+#game2 ul li {
+	border-bottom: solid 1px #9b9b9b;
+	border-left: solid 1px #9b9b9b;
+	}
+
+#game ul li.sum,
+#game2 ul li.sum {
+	width: 100%;
+	font-size: 120%;
+	font-weight: bold;
+	margin: 10px 0 10px 0;
+	}
+
+
+#sheet {
+	list-style-type: none;
+	}
+
+#sheet li.entry {
+	cursor: pointer;
+	border-top-right-radius: 15px;
+	}
+
+#sheet li.entry:hover {
+	background: #DEC197;
+	}
+	
+
+#sheet2 {
+	list-style-type: none;
+	}
+
+#buttons {
+	clear: both;
+	}
+
+#buttons button,
+#buttons #togo {
+	margin: 20px 10px 0 5px;
+	width: 80px;
+	}
+
+#buttons button {
+	border-radius:20px;
+	}
+
+#togo .value {
+	font-size: 3em;
+	}
+

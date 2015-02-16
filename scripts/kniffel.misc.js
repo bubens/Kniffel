@@ -1,23 +1,23 @@
-"use strict";
-
-if (!window.kniffel) {
-	var kniffel = {};
-}
+/* jshint strict:true */
+/* global util */
 
 kniffel.infos = {};
 kniffel.infos.elem = null;
 
 kniffel.infos.createBox = function (txt, x, y) {
+	"use strict";
 	var elem = util.element.create("div", txt, {className:"infoBox",id:"infoBox"},{left:(x+20)+"px",top:(y)+"px"});
 	kniffel.infos.elem = elem;
 	document.body.appendChild(elem);
 };
 
 kniffel.infos.removeBox = function () {
+	"use strict";
 	kniffel.infos.elem.parentNode.removeChild(kniffel.infos.elem);
 };
 
 kniffel.infos.aboutPrompt = function (e) {
+	"use strict";
 	var event = e || window.event,
 	x = event.pageX || event.offsetX,
 	y = event.pageY || event.offsetY,
@@ -26,6 +26,7 @@ kniffel.infos.aboutPrompt = function (e) {
 };
 
 kniffel.infos.aboutChallenge = function (e) {
+	"use strict";
 	var event = e || window.event,
 	x = event.pageX || event.offsetX,
 	y = event.pageY || event.offsetY,
@@ -34,6 +35,7 @@ kniffel.infos.aboutChallenge = function (e) {
 };
 
 kniffel.infos.aboutHighscore = function (e) {
+	"use strict";
 	var event = e || window.event,
 	x = event.pageX || event.offsetX,
 	y = event.pageY || event.offsetY,
@@ -42,6 +44,7 @@ kniffel.infos.aboutHighscore = function (e) {
 };
 
 kniffel.infos.init = function () {
+	"use strict";
 	util.event.add($("infoPrompt"), "mouseover", kniffel.infos.aboutPrompt);
 	util.event.add($("infoChallenge"), "mouseover", kniffel.infos.aboutChallenge);
 	util.event.add($("infoHighscore"), "mouseover", kniffel.infos.aboutHighscore);
@@ -53,6 +56,7 @@ kniffel.infos.init = function () {
 util.event.add(window, "load", kniffel.infos.init);
 
 kniffel.loader = (function (kniffel, global) {
+	"use strict";
 	var $public = {},
 	$private = {};
 	

@@ -1,4 +1,5 @@
 (function ($, window, undefined) {
+	"use strict";
 	var stopWatch, list, listlength,
 	result = $("#results"),
 	rawData = null,
@@ -209,9 +210,9 @@
 	bestMedian = function () {
 		var html = "<li id=\"bestMedian\"><b>Bester Durchschnitt (bei mehr als einem Spiel):</b> ",
 		name = "",
-		median = .0,
+		median = 0.0,
 		games = 0,
-		tempmedian = .0,
+		tempmedian = 0.0,
 		sum = 0,
 		player, prop, i, l;
 		for (prop in dataByName) {
@@ -241,7 +242,7 @@
 		name = "",
 		median = 999999999.99,
 		games = 0,
-		tempmedian = .0,
+		tempmedian = 0.0,
 		sum = 0,
 		player, prop, i, l;
 		for (prop in dataByName) {

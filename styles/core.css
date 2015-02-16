@@ -1,0 +1,71 @@
+* {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	}
+
+body {
+	font-size: 10pt;
+	font-family: Ubuntu condensed, Arial Narrow, Arial,sans-serif; 
+	background: url("../media/background.png") repeat scroll 0 0;
+	/*background: #C8E7C2;*/
+	}
+
+h1 {
+	font-size: 220%;
+	padding-left: 10px;
+	margin: 5px;
+	border-left: 2px #000 solid;
+	border-bottom: 2px #000 solid;
+	}
+
+a {
+	color: #000;
+	text-decoration: underline;
+	}
+
+noscript,
+#warnie {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 500;
+	background: #121212;
+	opacity: .8;
+	}
+
+noscript div,
+#warnie div {
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	font-size: 1.5em;
+	font-weight: bold;
+	border: #000 10px solid;
+	background: #fff;
+	z-index: 1000;
+	opacity: 1;
+	width: 400px;
+	padding: 30px;
+	}
+
+#loader {
+	display: none;
+	}
+
+#warnie #close {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: .6em;
+	}
+
+#loadtime {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	}

@@ -1,5 +1,9 @@
+/* jshint strict:true */
+
+
 //COOKIE Handling
 util.keks = (function () {
+	"use strict";
 
 	//gmtstring to delete cookies (=time to die)
 	var ttd = "Thu, 01 Jan 1970 00:01:00 GMT",
@@ -27,8 +31,8 @@ util.keks = (function () {
 
 		parseTtl = function (ttl) {
 			var type = ttl.type || "error",
-				res,
-				now = +new Date;
+				res = testTtl.exec(ttl),
+				now = new Date().getTime();
 		
 			//ttl not a Date-Object
 			if (type !== "date") {
@@ -53,7 +57,7 @@ util.keks = (function () {
 			
 			
 					//ttl has x(s/m/h/d/y) format (e.g. "31d" = 31 days)
-					else if (res = testTtl.exec(ttl)) {
+					else if (res) {
 						switch (res[2].toLowerCase()) {
 							case "s" : 
 								ttl = parseInt(res[1], 10)*1000;

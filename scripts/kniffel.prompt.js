@@ -1,10 +1,8 @@
-"use strict";
-
-if (!window.kniffel) {
-	var kniffel = {};
-}
+/* jshint strict:true */
+/* global util */
 
 kniffel.prompt = (function (kniffel, global) {
+	"use strict";
 	var $public = {},
 	$private = {};
 	

@@ -1,6 +1,8 @@
+/* jshint strict:true */
+
 //AJAX-Handling
 util.ajax = (function () {
-	
+	"use strict";
 	var ajax = {},
 		
 	getRequest = function () {
@@ -30,14 +32,14 @@ util.ajax = (function () {
 						}
 					}
 				}
-			}
+			};
 		}
 		else {
 			request.onreadystatechange = function () {
 				if (request.readyState === 4) { //&& request.status === 200) {
 					orsc(request);
 				}
-			}
+			};
 		}
 		
 		return request;

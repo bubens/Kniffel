@@ -1,12 +1,9 @@
-"use strict";
+/* jshint strict:true */
+/* global util */
 
-//window.time = +new Date;
-
-if (!window.kniffel) {
-	var kniffel = {};
-}
 
 kniffel.Dice = function (edge, id, className, parentId) {
+	"use strict";
 	var value = 0,
 	held = false,
 	parent = document.getElementById(parentId),
@@ -23,11 +20,11 @@ kniffel.Dice = function (edge, id, className, parentId) {
 		return b;
 	})(),
 	
-	cir = 2*Math.PI,
-	rad = edge*.1,
-	l = edge*.2,
-	r = edge*.8,
-	m = edge*.5,
+	cir = 2 * Math.PI,
+	rad = edge * 0.1,
+	l = edge * 0.2,
+	r = edge * 0.8,
+	m = edge * 0.5,
 	
 
 	draw = function (n, hold) {
@@ -71,21 +68,21 @@ kniffel.Dice = function (edge, id, className, parentId) {
 			cvs.fillStyle = "rgba(250, 214, 164, .4)";
 			cvs.fillRect(0, 0, edge, edge);
 		}
-	}
+	};
 	
 	this.reset = function () {
 		held = false;
 		value = 0;
 		draw(0);
-	}
+	};
 	
 	this.getValue = function (v) {
 		return value;
-	}
+	};
 	
 	this.isHeld = function () {
 		return held;
-	}
+	};
 	
 	this.roll = function () {
 		if (!held) {
@@ -96,12 +93,12 @@ kniffel.Dice = function (edge, id, className, parentId) {
 		else {
 			return false;
 		}
-	}
+	};
 	
 	// only shows n, wont change value
 	this.rollTo = function (n, h) {
 		draw(n, h);
-	}
+	};
 	
 	this.hold = function () {
 		if (!held) {
@@ -112,7 +109,7 @@ kniffel.Dice = function (edge, id, className, parentId) {
 			held = false;
 			draw(value, false);
 		}
-	}
+	};
 	
 	if (canVas) {
 		cvselm = document.createElement("canvas");

@@ -1,10 +1,8 @@
-"use strict";
-
-if (!window.kniffel) {
-	var kniffel = {};
-}
+/* jshint strict:true */
+/* global util */
 
 kniffel.getComment = function (pt) {
+	"use strict";
 	var comments = kniffel.getComment.comments,
 	cmt = "";
 	

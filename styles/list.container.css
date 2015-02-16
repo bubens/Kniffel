@@ -1,0 +1,40 @@
+#container {
+	position: absolute;
+	top: 50px;
+	left: 40px;
+	background: #faebd7;
+	border: solid 2px #000;
+	border-radius: 20px;
+	padding: 10px;
+	height: 560px;
+	}
+
+#container #list {
+	margin: 15px;
+	height: 90%;
+	overflow: auto;
+	}
+
+#container td {
+	padding: 10px 20px 0 20px;
+	}
+
+#container .list_header {
+	font-size: 2em;
+	}
+
+#container .list_index {
+	font-size: 2em;
+	}
+
+#container .list_name {
+	font-size: 1.3em;
+	}
+
+#container .list_points {
+	font-size: 2em;
+	}
+
+#container h2 {
+	margin: 0;
+	}

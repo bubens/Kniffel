@@ -1,10 +1,12 @@
-"use strict";
+/* jshint strict:true */
+/* global util */
 
 if (!window.kniffel) {
 	var kniffel = {};
 }
 
 kniffel.Entry = function (id) {
+	"use strict";
 	var value = null,
 	locked = false;
 	
@@ -37,6 +39,7 @@ kniffel.Entry = function (id) {
 };
 
 kniffel.sEntry = function (id) {
+	"use strict";
 	var value = 0;
 	this.element = $(id);
 	this.set = function (x) {
@@ -53,6 +56,7 @@ kniffel.sEntry = function (id) {
 };
 
 kniffel.Sum = function (id) {
+	"use strict";
 	var value = [];
 	
 	this.element = $(id).getElementsByTagName("span")[0];
@@ -83,6 +87,7 @@ kniffel.Sum = function (id) {
 };
 
 kniffel.Bonus = function (id) {
+	"use strict";
 	var $this = this,
 	value = 0,
 	stack = [],
@@ -135,6 +140,7 @@ kniffel.Bonus = function (id) {
 };
 
 kniffel.Togo = function (id) {
+	"use strict";
 	var value = 3;
 	
 	this.element = $(id).getElementsByTagName("span")[0];

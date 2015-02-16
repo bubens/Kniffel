@@ -1,10 +1,8 @@
-"use strict";
-
-if (!window.kniffel) {
-	var kniffel = {};
-}
+/* jshint strict:true */
+/* global util */
 
 kniffel.list = (function (kniffel, global) {
+	"use strict";
 	var $private = {},
 	$public = {};
 	
@@ -22,7 +20,7 @@ kniffel.list = (function (kniffel, global) {
 					}
 					kniffel.loader.hide();
 				}
-			}
+			};
 			$private.request.send(null);
 		}
 		else {

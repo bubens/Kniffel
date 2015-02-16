@@ -1,0 +1,79 @@
+#details ul li {
+	margin-top: 10px;
+	}
+
+#details ul li:first-child {
+	text-align: center;
+	}
+
+#navigation .switcher {
+	position: relative;
+	top: -25px;
+	height: 30px;
+	border: 1px solid #BC9F75;
+	border-radius: 10px;
+	font-size: 14pt;
+	overflow: hidden;
+	background-color: #E9DAC6;
+	margin-bottom: 5px;
+	}
+
+#navigation .switcher a {
+	text-decoration: none;
+	padding: 5px;
+	}
+
+#navigation .switcher a:hover {
+	background-color: #BC9F75;
+	}
+
+#navigation .switcher#month-switch span {
+	text-align: center;
+	display: inline-block;
+	height: 100%;
+	}
+
+#navigation .switcher#month-switch .before {
+	width: 23%;
+	}
+
+#navigation .switcher#month-switch .current {
+	width: 48%;
+}
+
+#navigation .switcher#month-switch .after {
+	width: 23%;
+}
+
+#navigation .switcher#month-switch span a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	}
+
+#navigation .switcher#best-switch span {
+	display: inline-block;
+	height: 100%;
+	width: 48%;
+	font-size: 10pt;
+	text-align: center;
+}
+
+#navigation .switcher#best-switch .best-current a {
+	background-color: #CDB086;
+	}
+
+#navigation .switcher#best-switch #best-off {
+	border-left: 1px solid #BC9F75;
+	}
+
+
+#navigation .switcher#best-switch span a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+
+
+
+

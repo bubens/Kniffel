@@ -1,12 +1,15 @@
+/* jshint strict:true */
+
+
 //an extended Interval constructor
 util.Interval = function (fn, fr) {
+	"use strict";
 	
 	var _this = this,
 		to = null,
 		iter = null,
 		callback = null,
 		active = false,
-		callback = null,
 		
 		freq = function (t) {
 			var a = _this.frequence-(new Date().getTime() - t);
@@ -14,10 +17,9 @@ util.Interval = function (fn, fr) {
 		},
 		
 		exec = function () {
-			var t = +new Date;
+			var t = new Date().getTime();
 			if (active) {
 				if (iter === null || iter > 0) {
-					//_this.fn.call(this);
 					_this.fn();
 					to = window.setTimeout(exec, freq(t));
 					iter = (iter !== null) ?iter-1 :null;
