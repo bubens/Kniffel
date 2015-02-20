@@ -266,7 +266,7 @@ function twitterfy_date ($d) {
 	}
 }
 
-function beautify_date ($n, $f) {
+function beautify_date ($n, $f=False) {
 	if (!$f) {
 		return date("d.m.y - H:i", (int)$n);
 	}
