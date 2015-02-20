@@ -128,6 +128,11 @@ function transform_mysql_to_assoc($result) {
 	while ($row = $result->fetch_assoc()) {
 		$row["points"] = (int)$row["points"];
 		$row["date"] = (int)$row["date"];
+		$row["gid"] = (int)$row["gid"];
+		$row["name"] = utf8_encode($row["name"]);
+		if ($row["record"]) {
+			$row["record"] = utf8_encode($row["record"]);
+		}
 		array_push($assoc, $row);
 	}
 	return $assoc;

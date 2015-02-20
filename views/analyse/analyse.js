@@ -49,7 +49,6 @@
 	},
 		
 	handleData = function (data, status, req) {
-		alert(data);
 		if (status == "success") {
 			list = data.list;
 			listlength = list.length;
@@ -378,7 +377,7 @@
 		var html = "<li id=\"leastActivePeriod\"><b>Längster Zeitraum ohne Einräge:</b> ",
 		byDate = list.sort(sortByDate).reverse(),
 		date = 0, delta = 0, tmpdelta = 0,
-		date1, date2, days,
+		date1, date2, days, hours, minutes, seconds,
 		i;
 		for (i = 1; i < listlength; i += 1) {
 			tmpdelta = byDate[i].date - byDate[i - 1].date;
@@ -537,7 +536,7 @@
 			
 	$(function () {
 		$.ajax({
-			"url" : "http://unpunk.de/kniffel/list/index.php",
+			"url" : "../index.php",
 			"dataType" : "json",
 			"data" : {"get" : "all",
 				"top" : "all",
