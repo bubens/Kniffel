@@ -243,7 +243,32 @@ module.exports = function (grunt) {
 			tmp: {
 				src: ["tmp/"]
 			}
+		},
+		
+		"ftp-deploy": {
+			test: {
+				auth: {
+					host: "planspielpopband.de",
+					port: 21,
+					authKey: "standard"
+				},
+				src: "kniffel-v<%= pkg.version %>/",
+				dest: "/unpunk/xkniffel",
+				exclusions: ["config"]
+			},
+			release: {
+				auth: {
+					host: "planspielpopband.de",
+					port: 21,
+					authKey: "standard"
+				},
+				src: "kniffel-v<%= pkg.version %>/",
+				dest: "/unpunk/kniffel",
+				exclusions: ["config"]
+			}
 		}
+					
+		
 	};
 	
 	grunt.initConfig(config);
@@ -256,6 +281,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-clean");
+	grunt.loadNpmTasks("grunt-ftp-deploy");
 	
 	// Linting the parts
 	grunt.registerTask("lint-javascript", "Linting Javascript...", ["jshint:utils", "jshint:kniffel"]);
@@ -297,5 +323,8 @@ module.exports = function (grunt) {
 	// Build the whole thing
 	grunt.registerTask("build", "Building Kniffel-Maschine...", ["lint-all", "concat-all", "minify-all", "copy-all", "clean-tmp"]);
 	grunt.registerTask("build-dev", "Building Dev-version of Kniffel-Maschine...", ["lint-all", "concat-all", "copy-all-dev", "clean-tmp"]);
+	
+	grunt.registerTask("test-deploy", "Deploy for testing...", ["ftp-deploy:test"]);
+	grunt.registerTask("release", "Deploy release...", ["ftp-deploy:release"]);
 	
 };

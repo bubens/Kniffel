@@ -1,6 +1,6 @@
 {
   "name": "Kniffel-Maschine",
-  "version": "5.0.0",
+  "version": "5.2.0",
   "description": "A Kniffel-browser game.",
   "author": "Henning Beyer <bubens@unpunk.de>",
   "keywords": [
@@ -23,6 +23,7 @@
     "grunt-contrib-qunit": "^0.5.2",
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-contrib-yuidoc": "^0.7.0",
+    "grunt-ftp-deploy": "^0.1.10",
     "grunt-phplint": "0.0.5"
   }
 }
