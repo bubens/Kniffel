@@ -22,7 +22,7 @@ Filter for a specific set of entries:
 ### 1.3 EXAMPLE
 
 Request all entries from march of 2011:
-[http://unpunk.de/kniffel/list/index.php?get=month=0311]()
+[http://unpunk.de/kniffel/list/index.php?get=month=0311](http://unpunk.de/kniffel/list/index.php?get=month=0311)
 
 ### 1.4 ATTENTION
 if best-query isn't set to 'f' (false) the list of entries will only contain the top entries per username. see "best"-param for all entries.
@@ -43,7 +43,7 @@ Filter the results from `get` for the top result per username.
 ### 2.3 EXAMPLE: 
 
 Get all entries per username:
-[http://unpunk.de/kniffel/list/index.php?best=f]()
+[http://unpunk.de/kniffel/list/index.php?best=f](http://unpunk.de/kniffel/list/index.php?best=f)
 
 ## 3. top=[value]
 
@@ -52,7 +52,7 @@ Cut set from `get` and `best` after a given number of entries.
 ### 3.1 Possible queries
 
 * **all**: do not cut set. (Usage: `list/index.php?top=all`)
-* **[$x]**: cut after $%x entries. (Usage: `list/index.php?top=10`)
+* **[$x]**: cut after $x entries. (Usage: `list/index.php?top=10`)
 
 	
 ### 3.2 DEFAULT
@@ -62,7 +62,7 @@ Cut set from `get` and `best` after a given number of entries.
 ### 3.3. EXAMPLE
 
 Show top 3 results from default set:
-[http://unpunk.de/kniffel/list/index.php?top=3]()
+[http://unpunk.de/kniffel/list/index.php?best=f](http://unpunk.de/kniffel/list/index.php?best=f)
 
 ## 4. ordered=[value]
 
@@ -80,7 +80,7 @@ Return the results ordered by points or date.
 ### 4.3 EXAMPLE
 
 Show default selection ordered by date:
-[http://unpunk.de/kniffel/list/index.php?ordered=f]()
+[http://unpunk.de/kniffel/list/index.php?ordered=f](http://unpunk.de/kniffel/list/index.php?ordered=f)
 
 ## 5. format=[value]
 
@@ -101,7 +101,7 @@ Return the result of the filters in specified format.
 ### 5.3 EXAMPLE
 
 Send default selection in text-format:
-[http://unpunk.de/kniffel/list/index.php?format=text]()
+[http://unpunk.de/kniffel/list/index.php?format=text](http://unpunk.de/kniffel/list/index.php?format=text)
 
 ## 6. record=[value]
 
@@ -117,7 +117,7 @@ Send default selection in text-format:
 ### 6.3 EXAMPLE
 
 Send default selection as json without record:
-[http://unpunk.de/kniffel/list/index.php?format=json&record=f]()
+[http://unpunk.de/kniffel/list/index.php?format=json&record=f](http://unpunk.de/kniffel/list/index.php?format=json&record=f)
 
 ### 6.2 ATTENTION
 
@@ -139,7 +139,7 @@ Should the response be send gz-compressed.
 ### 7.3 EXAMPLE
 
 Send an uncompressed CSV.
-[http://unpunk.de/kniffel/list/index.php?get=all&format=csv&compress=f]()
+[http://unpunk.de/kniffel/list/index.php?get=all&format=csv&compress=f](http://unpunk.de/kniffel/list/index.php?get=all&format=csv&compress=f)
 
 ## 8.Examples
 
@@ -147,11 +147,11 @@ Send an uncompressed CSV.
 
 Request the all-time top10 entries by user *bubens* as compressed text:
 
-[http://unpunk.de/kniffel/list/index.php?get=name=bubens&best=f&top=10&format=text&compress=t]()
+[http://unpunk.de/kniffel/list/index.php?get=name=bubens&best=f&top=10&format=text&compress=t](http://unpunk.de/kniffel/list/index.php?get=name=bubens&best=f&top=10&format=text&compress=t)
 
 ### 8.2 EXAMPLE 2
 
 Request the last 10 entries ordered by data in an uncompressed json-format:
 
-[http://unpunk.de/kniffel/list/index.php?get=last=10&best=f&format=json&ordered=f&compress=f]()
+[http://unpunk.de/kniffel/list/index.php?get=last=10&best=f&format=json&ordered=f&compress=f](http://unpunk.de/kniffel/list/index.php?get=last=10&best=f&format=json&ordered=f&compress=f)
 

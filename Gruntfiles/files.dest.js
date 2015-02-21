@@ -27,5 +27,8 @@ module.exports = {
 	},
 	media: {
 		folder: "kniffel-v<%= pkg.version %>/media/"
+	},
+	docs: {
+		api: "kniffel-v<%= pkg.version %>/list/"
 	}
 };

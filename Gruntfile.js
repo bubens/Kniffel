@@ -239,6 +239,18 @@ module.exports = function (grunt) {
 			}
 		},
 		
+		markdown: {
+			api: {
+				files: [{
+					expand: true,
+					src: src.docs.api,
+					dest: dest.docs.api,
+					flatten: true,
+					ext: ".html"
+				}]
+			}
+		},
+		
 		clean: {
 			tmp: {
 				src: ["tmp/"]
@@ -282,6 +294,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-ftp-deploy");
+	grunt.loadNpmTasks("grunt-markdown");
 	
 	// Linting the parts
 	grunt.registerTask("lint-javascript", "Linting Javascript...", ["jshint:utils", "jshint:kniffel"]);
@@ -317,13 +330,17 @@ module.exports = function (grunt) {
 	grunt.registerTask("copy-all", "Copying all...", ["copy-index", "copy-list", "copy-media", "copy-config"]);
 	grunt.registerTask("copy-all-dev", "Copy all (incl. js/css)", ["copy-all", "copy-javascript", "copy-css"]);
 	
+	// Build API-documentation from api-docs.md
+	grunt.registerTask("build-docs", "Building API-docs", ["markdown:api"]);	
+	
+	// Build the whole thing
+	grunt.registerTask("build", "Building Kniffel-Maschine...", ["lint-all", "concat-all", "minify-all", "copy-all", "build-docs", "clean-tmp"]);
+	grunt.registerTask("build-dev", "Building Dev-version of Kniffel-Maschine...", ["lint-all", "concat-all", "copy-all-dev", "build-docs", "clean-tmp"]);
+	
 	// Delete tmp-folder
 	grunt.registerTask("clean-tmp", "Deleting tmp/ folder...", ["clean:tmp"]);
 	
-	// Build the whole thing
-	grunt.registerTask("build", "Building Kniffel-Maschine...", ["lint-all", "concat-all", "minify-all", "copy-all", "clean-tmp"]);
-	grunt.registerTask("build-dev", "Building Dev-version of Kniffel-Maschine...", ["lint-all", "concat-all", "copy-all-dev", "clean-tmp"]);
-	
+	// Deploy stuff via ftp
 	grunt.registerTask("test-deploy", "Deploy for testing...", ["ftp-deploy:test"]);
 	grunt.registerTask("release", "Deploy release...", ["ftp-deploy:release"]);
 	

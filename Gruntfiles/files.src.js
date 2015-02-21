@@ -37,5 +37,8 @@ module.exports = {
 	},
 	media: {
 		pics: ["media/*.png", "media/*.gif"]
-	}			
+	},
+	docs: {
+		api: ["api-docs.md"]
+	}		
 };
