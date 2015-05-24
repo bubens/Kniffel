@@ -8,10 +8,46 @@ kniffel.list = (function (kniffel, global) {
 	
 	$private.request = new XMLHttpRequest();
 	$private.timeout = 0;
+	
+	$private.selection = global.localStorage.getItem("index.list.showEntries") || "best";
+	
+	$private.handleSelection = function ( event ) {
+		var elem = event.srcElement,
+		selection = elem.id.split("_")[2];
+		$private.toggleSelection( selection );
+	};
+	
+	$private.toggleSelection = function ( selection ) {
+		var slct = selection || $private.selection;
+		$private.selection = slct;
+		$private.storeSelection( slct );
+		$private.toggleClassname( slct );
+		$private.exec();
+	};
+	
+	$private.storeSelection = function ( selection ) {
+		global.localStorage.setItem( "index.list.showEntries", selection || $private.selection );
+	};
+	
+	$private.toggleClassname = function ( selection ) {
+		var cls = "current_selection",
+		slct = selection || $private.selection;
+		$( "best_switch_best" ).classList.remove( cls );
+		$( "best_switch_all" ).classList.remove( cls );
+		$( "best_switch_" + slct ).classList.add( cls );
+	};
+	
+	$private.makeURL = function () {
+		var url = "list/index.php?top=10&format=json&best=";
+		url += $private.selection == "best" ? "t" : "f";
+		return url;
+	};
+	
 	$private.reload = function () {
+		var url = $private.makeURL();
 		kniffel.loader.show();
 		if ($private.request.readyState === 0) {
-			$private.request.open("get", "list/index.php?top=10&format=json", true);
+			$private.request.open("get", url, true);
 			$private.request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			$private.request.onreadystatechange = function () {
 				if ($private.request.readyState == 4) {
@@ -69,6 +105,7 @@ kniffel.list = (function (kniffel, global) {
 	
 	
 	$private.exec = function () {
+		global.clearTimeout( $private.timeout );
 		$private.reload();
 		$private.timeout = global.setTimeout($private.exec, 120000);
 	};
@@ -77,7 +114,11 @@ kniffel.list = (function (kniffel, global) {
 		$private.reload();
 	};
 	
-	util.event.add(window, "load", $private.exec);
+	util.event.add($("best_switch_best"), "click", $private.handleSelection);
+	util.event.add($("best_switch_all"), "click", $private.handleSelection);
+	util.event.add(global, "load", function () {
+		$private.toggleSelection();
+	});
 	
 	return $public;
 }(kniffel, window));

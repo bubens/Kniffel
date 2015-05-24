@@ -11,7 +11,6 @@
 <link href="list/feed" type="application/rss+xml" rel="alternate" title="roll'em - Die Liste" />
 <link href="styles/styles.min.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="scripts/utils.min.js"></script>
-<script type="text/javascript" src="scripts/kniffel.min.js"></script>
 <script type="text/javascript">%replay_script%</script>
 </head>
 <body>
@@ -74,6 +73,7 @@
 	</div>
 	<div id="highscore">
 		<h2>Highscores<img id="infoHighscore" width="20" height="20" src="media/info.png" alt="Informationen" /></h2>
+		<div id="best_switch"><a title="Nur die besten Einträge anzeigen" id="best_switch_best" href="javascript:void(0);">Beste</a><a title="Alle Einträge anzeigen" id="best_switch_all" href="javascript:void(0);">Alle</a></div>
 		<div id="list_container">
 			<table id="list_highscore"></table>
 		</div>
@@ -81,6 +81,7 @@
 	<a id="etc_link_highscore" class="etc_link" href="list" title="Zur Highscore-Liste">Zur Highscore-Liste</a>
 	<a id="etc_link_unpunk" class="etc_link" href="http://unpunk.de" title="Zu unpunk.de">Zurück zu unpunk.de</a>
 </div>
+<script type="text/javascript" src="scripts/kniffel.min.js"></script>
 <script type="text/javascript"><!--
 	util.browser.onie(function () {
 		var html = "<div><span id='close'>schließen</span>Scheinbar schaust du dir diese Seite mit Internet-Explorer an. Dazu muss ich leider sagen, dass diese Seite die Zusammenarbeit mit Internet-Explorer größtenteils verweigert (und andersherum) und du roll'em im Internet-Explorer (bisher) nicht spielen kannst. Schaue dir diese Seite am besten mit einem echten Browser an.</div>";

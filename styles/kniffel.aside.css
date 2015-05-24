@@ -49,6 +49,39 @@
 	padding-left: 40px;
 	}
 
+/* BEGIN BEST-SWITCH */
+#best_switch {
+	width: 80%;
+	margin: auto;
+	margin-top: 3px;
+	border: solid #bc9f75 1px;
+	border-radius: 10px;
+	text-align: center;
+	overflow: hidden;
+	background: #E9DAC6;
+	}
+
+#best_switch a {
+	width: 49%;
+	display: inline-block;
+	text-align: center;
+	font-size: 1.3em;
+	text-decoration: none;
+	}
+
+#best_switch a:first-child {
+	border-right: solid #bc9f75 1px;
+}
+
+#best_switch a.current_selection {
+	background: #CDB086;
+}
+
+#best_switch a:hover {
+	background: #BC9F75;
+	}
+/* END BEST-SWITCH */
+
 #list_container {
 	height: 200px;
 	overflow: auto;
