@@ -6,29 +6,29 @@ kniffel.getComment = function (pt) {
 	var comments = kniffel.getComment.comments,
 	cmt = "";
 	
-	if (pt < 5 || pt > 375) {
-		cmt = comments[0][Math.floor(Math.random()*comments[0].length)];
+	if ( pt < 5 || pt > 375 ) {
+		cmt = comments[ 0 ][ Math.floor( Math.random() * comments[ 0 ].length ) ];
 	}
-	else if (pt >= 5 && pt < 100) {
-		cmt = comments[1][Math.floor(Math.random()*comments[1].length)];
+	else if ( pt >= 5 && pt < 100 ) {
+		cmt = comments[ 1 ][ Math.floor( Math.random() * comments[ 1 ].length ) ];
 	}
-	else if (pt >= 100 && pt < 180) {
-		cmt = comments[2][Math.floor(Math.random()*comments[2].length)];
+	else if ( pt >= 100 && pt < 180 ) {
+		cmt = comments[ 2 ][ Math.floor( Math.random() * comments[ 2 ].length ) ];
 	}
-	else if (pt >= 180 && pt <260) {
-		cmt = comments[3][Math.floor(Math.random()*comments[3].length)];
+	else if ( pt >= 180 && pt < 260 ) {
+		cmt = comments[ 3 ][ Math.floor( Math.random() * comments[ 3 ].length ) ];
 	}
-	else if (pt >= 260 && pt < 300) {
-		cmt = comments[4][Math.floor(Math.random()*comments[4].length)];
+	else if ( pt >= 260 && pt < 300 ) {
+		cmt = comments[ 4 ][ Math.floor( Math.random() * comments[ 4 ].length ) ];
 	}
-	else if (pt >= 300 && pt < 320) {
-		cmt = comments[5][Math.floor(Math.random()*comments[5].length)];
+	else if ( pt >= 300 && pt < 320 ) {
+		cmt = comments[ 5 ][ Math.floor( Math.random() * comments[ 5 ].length ) ];
 	}
-	else if (pt >= 320 && pt < 375) {
-		cmt = comments[6][Math.floor(Math.random()*comments[6].length)];
+	else if ( pt >= 320 && pt < 375 ) {
+		cmt = comments[ 6 ][ Math.floor( Math.random() * comments[ 6 ].length ) ];
 	}
-	else if (pt == 375) {
-		cmt = comments[7][Math.floor(Math.random()*comments[7].length)];
+	else if ( pt == 375 ) {
+		cmt = comments[ 7 ][ Math.floor( Math.random() * comments[ 7 ].length ) ];
 	}
 	
 	return cmt;
