@@ -93,7 +93,7 @@ kniffel.list = (function (kniffel, global) {
 			}
 			else {
 				util.element.empty(table);
-				table.appendChild(util.element.create("div", "Noch keine Einträge", {className:"list_info"}));
+				table.appendChild(util.element.create("div", "Noch keine Einträge.", {className:"list_info"}));
 			}
 		}
 		else {
