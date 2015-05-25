@@ -2,11 +2,11 @@
 /* global util */
 
 
-kniffel.Dice = function (edge, id, className, parentId) {
+kniffel.Dice = function( edge, id, className, parentId ) {
 	"use strict";
 	var value = 0,
 	held = false,
-	parent = document.getElementById(parentId),
+	parent = $( parentId ),
 	
 	// with a little inspiration from http://code.google.com/p/browser-canvas-support/
 	cvselm, cvs, canVas = (function () {
@@ -27,46 +27,46 @@ kniffel.Dice = function (edge, id, className, parentId) {
 	m = edge * 0.5,
 	
 
-	draw = function (n, hold) {
-		cvs.clearRect(0, 0, edge, edge);
+	draw = function ( n, hold ) {
+		cvs.clearRect( 0, 0, edge, edge );
 		cvs.beginPath();
 		cvs.fillStyle = "rgb(256, 256, 256)";
-		cvs.fillRect(0, 0, edge, edge);
-		if (n === 0) {
-			cvs.font = parseInt(2*rad)+"px Arial";
+		cvs.fillRect( 0, 0, edge, edge );
+		if ( n === 0 ) {
+			cvs.font = parseInt( 2 * rad ) + "px Arial";
 			cvs.fillStyle = "rgb(0,0,0)";
-			if (!!cvs.fillText) {
-				cvs.fillText("r o l l ' e m", 0, edge);
+			if ( !!cvs.fillText ) {
+				cvs.fillText( "r o l l ' e m", 0, edge );
 			}
 		}
-		if ((n%2) > 0) {
-			cvs.moveTo(m, m);
-			cvs.arc(m, m, rad, 0, cir, true);
+		if ( ( n % 2 ) > 0 ) {
+			cvs.moveTo( m, m );
+			cvs.arc( m, m, rad, 0, cir, true );
 		}
-		if (n > 1) {
-			cvs.moveTo(l, l);
-			cvs.arc(l, l, rad, 0, cir, true);
-			cvs.moveTo(r, r);
-			cvs.arc(r, r, rad, 0, cir, true);
+		if ( n > 1 ) {
+			cvs.moveTo( l, l );
+			cvs.arc( l, l, rad, 0, cir, true );
+			cvs.moveTo( r, r );
+			cvs.arc( r, r, rad, 0, cir, true );
 		}
-		if (n > 3) {
-			cvs.moveTo(r, l);
-			cvs.arc(r, l, rad, 0, cir, true);
-			cvs.moveTo(l, r);
-			cvs.arc(l, r, rad, 0, cir, true);
+		if ( n > 3 ) {
+			cvs.moveTo( r, l );
+			cvs.arc( r, l, rad, 0, cir, true );
+			cvs.moveTo( l, r );
+			cvs.arc( l, r, rad, 0, cir, true );
 		}
-		if (n == 6) {
-			cvs.moveTo(l, m);
-			cvs.arc(l, m, rad, 0, cir, true);
-			cvs.moveTo(r, m);
-			cvs.arc(r, m, rad, 0, cir, true);
+		if ( n == 6 ) {
+			cvs.moveTo( l, m );
+			cvs.arc( l, m, rad, 0, cir, true );
+			cvs.moveTo( r, m );
+			cvs.arc( r, m, rad, 0, cir, true );
 		}
 		cvs.closePath();
 		cvs.fillStyle = "rgb(0,0,0)";
 		cvs.fill();
-		if (hold && n > 0) {
+		if ( hold && n > 0 ) {
 			cvs.fillStyle = "rgba(250, 214, 164, .4)";
-			cvs.fillRect(0, 0, edge, edge);
+			cvs.fillRect( 0, 0, edge, edge );
 		}
 	};
 	
@@ -76,7 +76,7 @@ kniffel.Dice = function (edge, id, className, parentId) {
 		draw(0);
 	};
 	
-	this.getValue = function (v) {
+	this.getValue = function ( v ) {
 		return value;
 	};
 	
@@ -85,9 +85,9 @@ kniffel.Dice = function (edge, id, className, parentId) {
 	};
 	
 	this.roll = function () {
-		if (!held) {
-			value = Math.floor(Math.random()*6)+1;
-			draw(value);
+		if ( !held ) {
+			value = Math.floor( Math.random() * 6 ) + 1;
+			draw( value );
 			return true;
 		}
 		else {
@@ -96,28 +96,24 @@ kniffel.Dice = function (edge, id, className, parentId) {
 	};
 	
 	// only shows n, wont change value
-	this.rollTo = function (n, h) {
-		draw(n, h);
+	this.rollTo = function ( n, h ) {
+		draw( n, h );
 	};
 	
 	this.hold = function () {
-		if (!held) {
+		if ( !held ) {
 			held = true;
-			draw(value, true);
+			draw( value, true );
 		}
 		else {
 			held = false;
-			draw(value, false);
+			draw( value, false );
 		}
 	};
 	
-	if (canVas) {
-		cvselm = document.createElement("canvas");
-		cvselm.width = edge;
-		cvselm.height = edge;
-		cvselm.id = id;
-		cvselm.className = className;
-		parent.appendChild(cvselm);
+	if ( canVas ) {
+		cvselm = util.element.create( "canvas", "", { width: edge, height: edge, id: id, className: className } );
+		parent.appendChild( cvselm );
 		
 		cvs = cvselm.getContext("2d");
 		cvs.fillStyle = "rgb(0,0,0)";
