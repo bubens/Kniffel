@@ -1,85 +1,71 @@
 /* jshint strict:true */
 /* global util */
 
-kniffel.prompt = (function (kniffel, global) {
+kniffel.prompt = (function ( kniffel, util, window ) {
 	"use strict";
-	var $public = {},
-	$private = {};
+	var element = $( "prompt" ),
+	prompting = false,
+	visible = false,
+	text = "",
+	interval, timeout;
 	
-	$private.init = function () {
-		$private.elem = $("prompt");
-	};
-	
-	$private.blink = function (txt, t, n) {
-		if (!$private.blink.prompting) {
-			$private.blink.prompting = true;
-			$private.blink.txt = util.string.trim(txt);
-			$private.blink.interval = new util.Interval($private.blink.blink, t || 500);
-			$private.blink.interval.start(n || 8, $private.blink.clear);
+	function startBlinking( txt, t, n ) {
+		if ( !prompting ) {
+			prompting = true;
+			text = util.string.trim( txt );
+			interval = new util.Interval( blink, t || 500 );
+			interval.start( n || 8, stopBlinking );
 		}
 		else {
-			$private.blink.clear();
-			$private.blink(txt);
+			stopBlinking();
+			startBlinking( txt, t, n );
 		}
 		return true;
-	};
-	$private.blink.blink = function () {
-		var prompt = $private.blink;
-		if (prompt.visible) {
-			$private.elem.innerHTML = "";
-			prompt.visible = false;
-		}
-		else {
-			$private.elem.innerHTML = prompt.txt;
-			prompt.visible = true;
-		}
-		return true;
-	};
-	$private.blink.clear = function () {
-		$private.blink.interval.stop();
-		$private.blink.interval = null;
-		$private.elem.innerHTML = "";
-		$private.blink.visible = false;
-		$private.blink.txt = "";
-		$private.blink.prompting = false;
-	};
-	$private.blink.txt = "";
-	$private.blink.visible = false;
-	$private.blink.prompting = false;
+	}
 	
-	$private.show = function (txt, t) {
-		if (!$private.show.prompting) {
-			$private.show.prompting = true;
-			$private.elem.innerHTML = util.string.trim(txt);
-			$private.show.timeout = global.setTimeout($private.show.clear, t || 3000);
+	function stopBlinking() {
+		if ( interval ) {
+			interval.stop();
+			interval = null;
+			element.innerHTML = "";
+			visible = false;
+			prompting = false;
+			text = "";
+		}
+	}
+	
+	function blink() {
+		element.innerHTML = visible ? text : "";
+		visible = !visible;
+	}
+		
+	function showText( txt, t ) {
+		if ( !prompting ) {
+			prompting = true;
+			element.innerHTML = util.string.trim( txt );
+			timeout = window.setTimeout( hideText, t || 3 * 1000 );
 		}
 		else {
-			global.clearTimeout($private.show.timeout);
-			$private.show.clear();
-			$private.show(txt);
+			window.clearTimeout( timeout );
+			stopBlinking();
+			hideText();
+			showText();
 		}
 		return true;
-	};
-	$private.show.clear = function () {
-		$private.elem.innerHTML = "&nbsp;&nbsp;";
-		$private.show.prompting = false;
-	};
-	$private.show.timeout = 0;
-	$private.show.prompting = false;
+	}
 	
-	// a bridge to $private.blink()
-	$public.blink = function (txt) {
-		$private.blink(txt);
-		return true;
+	function hideText() {
+		element.innerHTML = "&nbsp;&nbsp;";
+		window.clearTimeout( timeout );
+		prompting = false;
+	}
+	
+	return {
+		blink: function ( txt, t, n ) {
+			startBlinking( txt, t, n );
+		},
+		show: function ( txt, t ) {
+			showText( txt, t );
+		}
 	};
-	
-	// a bridge to $private.show()
-	$public.show = function (txt, t) {
-		$private.show(txt, t);
-		return true;
-	};
-	
-	util.event.add(window, "load", $private.init);
-	
-	return $public;
-}(kniffel, window));
+}( kniffel, util, window ));
