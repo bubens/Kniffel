@@ -1,124 +1,133 @@
-/* jshint strict:true */
+/* jshin strict:true */
 /* global util */
 
-kniffel.list = (function (kniffel, global) {
+kniffel.list = (function ( kniffel, util, window ) {
 	"use strict";
-	var $private = {},
-	$public = {};
+	var request = new XMLHttpRequest(),
+	timeout = 0,
 	
-	$private.request = new XMLHttpRequest();
-	$private.timeout = 0;
+	storageKey = "index.list.showEntries",
+	currentClassname = "current_selection",
+	requestURL = "list/index.php?top=10&format=json&best=",
 	
-	$private.selection = global.localStorage.getItem("index.list.showEntries") || "best";
+	selection = window.localStorage.getItem( storageKey ) || "best";
 	
-	$private.handleSelection = function ( event ) {
+	function handleSelection( event ) {
 		var elem = event.srcElement,
-		selection = elem.id.split("_")[2];
-		$private.toggleSelection( selection );
-	};
+		slctn = elem.id.split( "_" )[ 2 ];
+		toggleSelection( slctn );
+		return true;
+	}
 	
-	$private.toggleSelection = function ( selection ) {
-		var slct = selection || $private.selection;
-		$private.selection = slct;
-		$private.storeSelection( slct );
-		$private.toggleClassname( slct );
-		$private.exec();
-	};
+	function toggleSelection( s ) {
+		var slctn = s || selection;
+		selection = slctn;
+		storeSelection( slctn );
+		toggleClassname( slctn );
+		initReload();
+		return true;
+	}
 	
-	$private.storeSelection = function ( selection ) {
-		global.localStorage.setItem( "index.list.showEntries", selection || $private.selection );
-	};
+	function storeSelection( slctn ) {
+		window.localStorage.setItem( storageKey, slctn || selection );
+		return true;
+	}
 	
-	$private.toggleClassname = function ( selection ) {
-		var cls = "current_selection",
-		slct = selection || $private.selection;
-		$( "best_switch_best" ).classList.remove( cls );
-		$( "best_switch_all" ).classList.remove( cls );
-		$( "best_switch_" + slct ).classList.add( cls );
-	};
+	function toggleClassname( s ) {
+		var slctn = s || selection,
+		clss = "current_selection";
+		
+		$( "best_switch_best" ).classList.remove( clss );
+		$( "best_switch_all" ).classList.remove( clss );
+		$( "best_switch_" + slctn ).classList.add( clss );
+		return true;
+	}
 	
-	$private.makeURL = function () {
-		var url = "list/index.php?top=10&format=json&best=";
-		url += $private.selection == "best" ? "t" : "f";
-		return url;
-	};
-	
-	$private.reload = function () {
-		var url = $private.makeURL();
+	function reloadList() {
+		var url = requestURL + ( selection == "best" ? "t" : "f" );
+		
 		kniffel.loader.show();
-		if ($private.request.readyState === 0) {
-			$private.request.open("get", url, true);
-			$private.request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-			$private.request.onreadystatechange = function () {
-				if ($private.request.readyState == 4) {
-					if ($private.request.status == 200) {
-						$private.toDOM($private.request.responseText);
+		
+		if ( request.readyState === 0 ) {
+			request.open( "get", url, true );
+			request.setRequestHeader( "X-Requested-With", "XMLHttpRequest" );
+			request.onreadystatechange = function () {
+				if ( request.readyState === 4 ) {
+					if ( request.status === 200 ) {
+						toDOM( request.responseText );
 					}
 					kniffel.loader.hide();
 				}
 			};
-			$private.request.send(null);
+			request.send( null );
 		}
 		else {
-			$private.request.abort();
-			$private.reload();
+			request.abort();
+			reloadList();
 		}
-	};
+		return true;
+	}
 	
-	$private.toDOM = function (txt) {
-		var rsp = util.json.parse(txt), 
-		list, i, l,
-		entry, url,
-		a, rank, name, points, date, row,
-		table = $("list_highscore");
-		util.element.empty(table);
-		if (rsp) {
-			list = rsp.list;
+	function createRow( entry, n ) {
+		var row, url, a, rank,
+		name, points, date;
+		
+		url = location.pathname + "?gid=" + entry.gid;
+		a = util.element.create( "a", entry.name, { title: "Spiele gegen " + entry.name, href: url } );
+		rank = util.element.create( "td", n, { className: "list_index" } );
+		name = util.element.create( "td", a, { className: "list_name"  } );
+		points = util.element.create( "td", entry.points, { className: "list_points" } );
+		date = util.element.create( "td", "(" + util.time.twitterfy( entry.date * 1000 ) + ")", { className: "list_date" } );
+		row = util.element.create( "tr", rank, { className: "list_entry" } );
+		row.appendChild( name );
+		row.appendChild( points );
+		row.appendChild( date );
+		
+		return row;
+	}			
+	
+	function toDOM( txt ) {
+		var json = util.json.parse( txt ),
+		table = $( "list_highscore" ),
+		list, row, info, i, l;
+		
+		if ( json ) {
+			list = json.list;
 			l = list.length;
-			if (l > 0) {
-				for (i=0; i<l; i+=1) {
-					entry = list[i];
-					url = location.pathname+"?gid="+entry.gid;
-					a = util.element.create("a", entry.name, {title:"Spiele gegen "+entry.name, href:url});
-					rank = util.element.create("td", i+1, {className:"list_index"});
-					name = util.element.create("td", a, {className:"list_name"});
-					points = util.element.create("td", entry.points, {className:"list_points"});
-					date = util.element.create("td", "("+util.time.twitterfy(entry.date*1000)+")", {className:"list_date"});
-					row = util.element.create("tr", rank, {className:"list_entry"});
-					row.appendChild(name);
-					row.appendChild(points);
-					row.appendChild(date);
-					table.appendChild(row);
+			util.element.empty( table );
+			if ( l > 0 ) {				
+				for ( i = 0; i < l; i += 1 ) {
+					row = createRow( list[ i ], i + 1 );
+					table.appendChild( row );
 				}
 			}
 			else {
-				util.element.empty(table);
-				table.appendChild(util.element.create("div", "Noch keine Einträge.", {className:"list_info"}));
+				info = util.element.create( "div", "Noch keine Einträge.", { className: "list_info" } );
+				table.appendChild( info );
 			}
 		}
 		else {
-			if (global.console && global.console.warn) {
-				console.warn("Bad Ajax-Response.");
+			if ( window.console && window.console.warn ) {
+				window.console.warn( "Bad Ajax Response: " + txt );
 			}
 		}
+	}
+	
+	function initReload() {
+		window.clearTimeout( timeout );
+		reloadList();
+		timeout = window.setTimeout( initReload, 2 * 60 * 1000 );
+	}
+	
+	util.event.add( $( "best_switch_best" ), "click", handleSelection );
+	util.event.add( $( "best_switch_all" ), "click", handleSelection );
+	util.event.add( window, "load", function () { toggleSelection(); } );
+	
+	return {
+		reload: function () {
+			reloadList();
+		}
 	};
+}( kniffel, util, window ));
 	
-	
-	$private.exec = function () {
-		global.clearTimeout( $private.timeout );
-		$private.reload();
-		$private.timeout = global.setTimeout($private.exec, 120000);
-	};
-	
-	$public.reload = function () {
-		$private.reload();
-	};
-	
-	util.event.add($("best_switch_best"), "click", $private.handleSelection);
-	util.event.add($("best_switch_all"), "click", $private.handleSelection);
-	util.event.add(global, "load", function () {
-		$private.toggleSelection();
-	});
-	
-	return $public;
-}(kniffel, window));
+		

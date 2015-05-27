@@ -2,7 +2,7 @@ module.exports = {
 	// All js-sources for linting, concating and minifying
 	javascript: {
 		// start with explicit identifier to make sure that this is the first file in concating
-		kniffel: ["scripts/kniffel.entry.js", "scripts/kniffel.misc.js","scripts/kniffel.*.js"],
+		kniffel: ["scripts/kniffel.entry.js", "scripts/kniffel.misc.js","scripts/kniffel.list.js", "scripts/kniffel.prompt.js", "scripts/kniffel.dice.js", "scripts/kniffel.comment.js", "scripts/kniffel.core.js"],
 		utils: ["scripts/util.misc.js", "scripts/util.*.js"],
 	},
 	// All php-sources for linting

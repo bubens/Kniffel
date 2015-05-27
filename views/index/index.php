@@ -52,6 +52,7 @@ else {
 $html = file_get_contents("templates/index.template.html");
 
 $html = str_replace("%game_name%", $game_name, $html);
+$html = str_replace("%game_month%", get_month_name((int)date("n")), $html);
 
 if ($replay_is) {
 	$script = file_get_contents("templates/replay.template.js");

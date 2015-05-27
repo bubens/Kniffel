@@ -10,7 +10,7 @@ kniffel.Entry = function (id) {
 	var value = null,
 	locked = false;
 	
-	this.element = $(id).getElementsByTagName("span")[0];
+	this.element = $( id ).getElementsByTagName("span")[0];
 	
 	this.getValue = function () {
 		return value || 0;
@@ -20,11 +20,11 @@ kniffel.Entry = function (id) {
 		return locked;
 	};
 	
-	this.enter = function (x) {
-		if (!locked) {
+	this.enter = function ( x ) {
+		if ( !locked ) {
 			this.value = x;
 			locked = true;
-			this.element.innerHTML = util.leadZero(x);
+			this.element.innerHTML = util.leadZero( x );
 			return true;
 		}
 		return false;
@@ -38,16 +38,16 @@ kniffel.Entry = function (id) {
 	};
 };
 
-kniffel.sEntry = function (id) {
+kniffel.sEntry = function ( id ) {
 	"use strict";
 	var value = 0;
-	this.element = $(id);
-	this.set = function (x) {
+	this.element = $( id );
+	this.set = function ( x ) {
 		value = x;
-		this.element.innerHTML = util.leadZero(x);
+		this.element.innerHTML = util.leadZero( x );
 	};
 	this.getValue = function () {
-		return window.parseInt(value);
+		return window.parseInt( value );
 	};
 	this.reset = function () {
 		value = 0;
@@ -55,27 +55,27 @@ kniffel.sEntry = function (id) {
 	};
 };
 
-kniffel.Sum = function (id) {
+kniffel.Sum = function ( id ) {
 	"use strict";
 	var value = [];
 	
-	this.element = $(id).getElementsByTagName("span")[0];
+	this.element = $( id ).getElementsByTagName( "span" )[ 0 ];
 	
-	this.add = function (x) {
-		value.push(x);
-		this.element.innerHTML = util.leadZero(this.getValue());
+	this.add = function ( x ) {
+		value.push( x );
+		this.element.innerHTML = util.leadZero( this.getValue() );
 	};
 	
 	this.undo = function () {
 		var x = value.pop();
-		this.element.innerHTML = util.leadZero(this.getValue());
+		this.element.innerHTML = util.leadZero( this.getValue() );
 	};
 	
 	this.getValue = function () {
 		var i, l = value.length,
 		s = 0;
-		for (i=0; i<l; i+=1) {
-			s += value[i];
+		for ( i = 0; i < l; i += 1) {
+			s += value[ i ];
 		}
 		return s;
 	};
@@ -95,14 +95,14 @@ kniffel.Bonus = function (id) {
 	getvalue = function () {
 		var i, l = stack.length,
 		x = 0;
-		for (i=0; i<l; i+=1) {
-			x += stack[i];
+		for ( i = 0; i < l; i += 1 ) {
+			x += stack[ i ];
 		}
 		return x;
 	},
 	calc = function () {
 		var x = getvalue();
-		if (x >= 63 && !given) {
+		if ( x >= 63 && !given ) {
 			value = 35;
 			$this.element.innerHTML = value;
 			given = true;
@@ -111,10 +111,10 @@ kniffel.Bonus = function (id) {
 		return false;
 	};
 	
-	this.element = $(id).getElementsByTagName("span")[0];
+	this.element = $( id ).getElementsByTagName( "span" )[ 0 ];
 	
-	this.add = function (x) {
-		stack.push(x);
+	this.add = function ( x ) {
+		stack.push( x );
 		return calc();
 	};
 	
@@ -139,16 +139,16 @@ kniffel.Bonus = function (id) {
 	};
 };
 
-kniffel.Togo = function (id) {
+kniffel.Togo = function ( id ) {
 	"use strict";
 	var value = 3;
 	
-	this.element = $(id).getElementsByTagName("span")[0];
+	this.element = $( id ).getElementsByTagName( "span" )[ 0 ];
 	
 	this.decrement = function () {
-		if (value > 0) {
+		if ( value > 0 ) {
 			value -= 1;
-			this.element.innerHTML = value+"";
+			this.element.innerHTML = value + "";
 			return true;
 		}
 		else {
@@ -158,7 +158,7 @@ kniffel.Togo = function (id) {
 	
 	this.reset = function () {
 		value = 3;
-		this.element.innerHTML = value+"";
+		this.element.innerHTML = value + "";
 		return true;
 	};
 	
@@ -168,12 +168,3 @@ kniffel.Togo = function (id) {
 		return true;
 	};
 };
-			
-	
-/*
-kniffel.Entry.prototype = kniffel.Sum.prototype = kniffel.Bonus.prototype = kniffel.Togo.prototype = {
-	toString : function () {
-		return util.leadZero(this.getValue());
-	}
-}
-*/
