@@ -223,7 +223,7 @@ kniffel.kniffel = (function ( kniffel, util, window ) {
 				}
 				// the move is an entry
 				else {
-					replayEntries[ r[ 1 ] ].set( r[ 2 ] );
+					rpl.entries[ r[ 1 ] ].set( r[ 2 ] );
 					rpl.sums.bonus.set( window.parseInt( r[ 3 ] ) || "" );
 					rpl.sums.up.set( window.parseInt( r[ 4 ] ) || "" );
 					rpl.sums.down.set( window.parseInt( r[ 5 ] ) || "" );
@@ -259,10 +259,10 @@ kniffel.kniffel = (function ( kniffel, util, window ) {
 			return entr;
 		}());
 		
-		// take the string and transform it into a playable array
-		rpl.init = function ( str ) {
-			var i, j, k, l, tmp = [];
-			tmp = str.split( "trn" );
+		// take the challenge object and prepare the replay
+		rpl.init = function ( challenge ) {
+			var i, j, k, l,
+			tmp = challenge.game.split( "trn" );
 			for ( i = 0, l = tmp.length; i < l; i += 1 ) {
 				tmp[ i ] = tmp[ i ].split( "mv" );
 				tmp[ i ].shift();
@@ -270,7 +270,10 @@ kniffel.kniffel = (function ( kniffel, util, window ) {
 					tmp[ i ][ j ] = tmp[ i ][ j ].split( "x" );
 				}
 			}
-			return tmp;
+			
+			rpl.name = challenge.name;
+			rcd = tmp;
+			return true;
 		};
 		
 		rpl.playRound = function () {
@@ -396,7 +399,7 @@ kniffel.kniffel = (function ( kniffel, util, window ) {
 				record.reset();
 				
 				if ( is_replay ) {
-					replay.record = replay.init( kniffel.challenge.game );
+					replay.init( kniffel.challenge );
 					replay.entries.reset();
 					replay.sums.up.reset();
 					replay.sums.bonus.reset();
@@ -582,8 +585,7 @@ kniffel.kniffel = (function ( kniffel, util, window ) {
 	// here comes the replay stuff
 	if ( !!kniffel.challenge ) {
 		is_replay = true;
-		replay.name = kniffel.challenge.name;
-		replay.record = replay.init( kniffel.challenge.game );
+		replay.init( kniffel.challenge );
 	}
 	
 	if ( is_replay ) {
