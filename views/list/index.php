@@ -61,7 +61,7 @@ else if ($filter["filter"] == "days") {
 	$query .= " WHERE DATE_SUB(CURDATE(), INTERVAL ".$filter["value"]." DAY) <= date";
 }
 else if ($filter["filter"] == "last") {
-	$query .= " WHERE (SELECT COUNT(*) FROM scores) - 10 < id";
+	$query .= " WHERE (SELECT COUNT(*) FROM scores) - ".$filter["value"]." < id";
 }
 else {
 	$query .= " WHERE MONTH(date) = ".$month." AND YEAR(date) = 20".$year;
