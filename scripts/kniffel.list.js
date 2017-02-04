@@ -13,9 +13,10 @@ kniffel.list = (function ( kniffel, util, window ) {
 	selection = window.localStorage.getItem( storageKey ) || "best";
 	
 	function handleSelection( event ) {
-		var elem = event.srcElement,
-		slctn = elem.id.split( "_" )[ 2 ];
-		toggleSelection( slctn );
+		var elem, select;
+        elem = event.target;
+		select = elem.id.split( "_" )[ 2 ];
+		toggleSelection( select );
 		return true;
 	}
 	
