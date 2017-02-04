@@ -134,7 +134,7 @@ kniffel.kniffel = (function ( kniffel, util, window ) {
 			else if ( entry == "gs" && core.functions.isStraight( IS_LARGE_STRAIGHT ) ) {
 				x = 40;
 			}
-			// none if the above
+			// none of the above
 			else {
 				x = 0;
 			}
