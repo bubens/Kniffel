@@ -31,9 +31,8 @@
     "grunt-contrib-yuidoc": "^1.0.0",
     "grunt-ftp-deploy": "^0.2.0",
     "grunt-markdown": "^0.7.0",
-    "grunt-phplint": "0.1.0"
-  },
-  "dependencies": {
+    "grunt-phplint": "0.1.0",
     "npx": "^10.2.0"
-  }
+  },
+  "dependencies": {}
 }
