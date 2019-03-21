@@ -29,24 +29,30 @@ npm install
 ## 5. Developer-/Test-Version of the Kniffel-Machine
 1. To build a Developer-/Test Version (no js-minification), type...
 ```sh
-grunt build-dev
+npm run build-dev
 ```
 
 ## 6. Kniffel-Machine
 1. To build a Kniffel-Machine, type...
 ```sh
-grunt build
+npm run build
 ```
 
 ## 7. Build and deploy/release at once
 1. To deploy at dev version (no minification), type...
 ```sh
-grunt test-deploy
+npm run test-deploy
 ```
 2. To deploy the kniffel machine (incl. minification and stuff), type...
 ```sh
-grunt release
+npm run release
 ```
 
-## 8. Finaly
+## 8. Run other grunt tasks
+In order to run other grunt tasks (see Gruntfile for available tasks) type...
+```sh
+npx grunt [task]
+```
+
+## 9. Finaly
 1. Have fun!
