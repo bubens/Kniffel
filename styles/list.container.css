@@ -1,17 +1,17 @@
 #container {
-	position: absolute;
-	top: 50px;
-	left: 40px;
 	background: #faebd7;
 	border: solid 2px #000;
 	border-radius: 20px;
-	padding: 10px;
 	height: 560px;
+	left: 40px;
+	padding: 10px;
+	position: absolute;
+	top: 50px;
 	}
 
 #container #list {
-	margin: 15px;
 	height: 90%;
+	margin: 15px;
 	overflow: auto;
 	}
 

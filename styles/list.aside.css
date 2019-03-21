@@ -7,20 +7,20 @@
 	}
 
 #navigation .switcher {
-	position: relative;
-	top: -25px;
-	height: 30px;
+	background-color: #E9DAC6;
 	border: 1px solid #BC9F75;
 	border-radius: 10px;
 	font-size: 14pt;
-	overflow: hidden;
-	background-color: #E9DAC6;
+	height: 30px;
 	margin-bottom: 5px;
+	overflow: hidden;
+	position: relative;
+	top: -25px;
 	}
 
 #navigation .switcher a {
-	text-decoration: none;
 	padding: 5px;
+	text-decoration: none;
 	}
 
 #navigation .switcher a:hover {
@@ -28,9 +28,9 @@
 	}
 
 #navigation .switcher#month-switch span {
-	text-align: center;
 	display: inline-block;
 	height: 100%;
+	text-align: center;
 	}
 
 #navigation .switcher#month-switch .before {
@@ -47,16 +47,16 @@
 
 #navigation .switcher#month-switch span a {
 	display: inline-block;
-	width: 100%;
 	height: 100%;
+	width: 100%;
 	}
 
 #navigation .switcher#best-switch span {
 	display: inline-block;
-	height: 100%;
-	width: 48%;
 	font-size: 10pt;
+	height: 100%;
 	text-align: center;
+	width: 48%;
 }
 
 #navigation .switcher#best-switch .best-current a {
@@ -70,8 +70,8 @@
 
 #navigation .switcher#best-switch span a {
 	display: inline-block;
-	width: 100%;
 	height: 100%;
+	width: 100%;
 }
 
 
