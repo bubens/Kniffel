@@ -14,7 +14,7 @@
     "build": "npx grunt build",
     "build-dev": "npx grunt build-dev",
     "deploy": "npx grunt test-deploy",
-    "release": "npm grunt release"
+    "release": "npx grunt release"
   },
   "private": true,
   "license": "GPLv3 (https://www.gnu.org/licenses/gpl.txt)",
