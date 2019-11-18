@@ -1,30 +1,30 @@
 /* jshint strict:true */
 /* global util */
 
-kniffel.prompt = (function ( kniffel, util, window ) {
+kniffel.prompt = (function (kniffel, util, window) {
 	"use strict";
-	var element = $( "prompt" ),
-	prompting = false,
-	visible = false,
-	text = "",
-	interval, timeout;
-	
-	function startBlinking( txt, t, n ) {
-		if ( !prompting ) {
+	var element = $("prompt"),
+		prompting = false,
+		visible = false,
+		text = "",
+		interval, timeout;
+
+	function startBlinking(txt, t, n) {
+		if (!prompting) {
 			prompting = true;
-			text = util.string.trim( txt );
-			interval = new util.Interval( blink, t || 500 );
-			interval.start( n || 8, stopBlinking );
+			text = util.string.trim(txt);
+			interval = new util.Interval(blink, t || 500);
+			interval.start(n || 8, stopBlinking);
 		}
 		else {
 			stopBlinking();
-			startBlinking( txt, t, n );
+			startBlinking(txt, t, n);
 		}
 		return true;
 	}
-	
+
 	function stopBlinking() {
-		if ( interval ) {
+		if (interval) {
 			interval.stop();
 			interval = null;
 			element.innerHTML = "";
@@ -33,39 +33,39 @@ kniffel.prompt = (function ( kniffel, util, window ) {
 			text = "";
 		}
 	}
-	
+
 	function blink() {
 		element.innerHTML = visible ? text : "";
 		visible = !visible;
 	}
-		
-	function showText( txt, t ) {
-		if ( !prompting ) {
+
+	function showText(txt, t) {
+		if (!prompting) {
 			prompting = true;
-			element.innerHTML = util.string.trim( txt );
-			timeout = window.setTimeout( hideText, t || 3 * 1000 );
+			element.innerHTML = util.string.trim(txt);
+			timeout = window.setTimeout(hideText, t || 3 * 1000);
 		}
 		else {
-			window.clearTimeout( timeout );
+			window.clearTimeout(timeout);
 			stopBlinking();
 			hideText();
 			showText();
 		}
 		return true;
 	}
-	
+
 	function hideText() {
 		element.innerHTML = "&nbsp;&nbsp;";
-		window.clearTimeout( timeout );
+		window.clearTimeout(timeout);
 		prompting = false;
 	}
-	
+
 	return {
-		blink: function ( txt, t, n ) {
-			startBlinking( txt, t, n );
+		blink: function (txt, t, n) {
+			startBlinking(txt, t, n);
 		},
-		show: function ( txt, t ) {
-			showText( txt, t );
+		show: function (txt, t) {
+			showText(txt, t);
 		}
 	};
-}( kniffel, util, window ));
+}(kniffel, util, window));

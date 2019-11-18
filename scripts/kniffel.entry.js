@@ -8,28 +8,28 @@ if (!window.kniffel) {
 kniffel.Entry = function (id) {
 	"use strict";
 	var value = null,
-	locked = false;
-	
-	this.element = $( id ).getElementsByTagName("span")[0];
-	
+		locked = false;
+
+	this.element = $(id).getElementsByTagName("span")[0];
+
 	this.getValue = function () {
 		return value || 0;
 	};
-	
+
 	this.locked = function () {
 		return locked;
 	};
-	
-	this.enter = function ( x ) {
-		if ( !locked ) {
+
+	this.enter = function (x) {
+		if (!locked) {
 			this.value = x;
 			locked = true;
-			this.element.innerHTML = util.leadZero( x );
+			this.element.innerHTML = util.leadZero(x);
 			return true;
 		}
 		return false;
 	};
-	
+
 	this.reset = function () {
 		this.value = null;
 		this.element.innerHTML = "  ";
@@ -38,16 +38,16 @@ kniffel.Entry = function (id) {
 	};
 };
 
-kniffel.sEntry = function ( id ) {
+kniffel.sEntry = function (id) {
 	"use strict";
 	var value = 0;
-	this.element = $( id );
-	this.set = function ( x ) {
+	this.element = $(id);
+	this.set = function (x) {
 		value = x;
-		this.element.innerHTML = util.leadZero( x );
+		this.element.innerHTML = util.leadZero(x);
 	};
 	this.getValue = function () {
-		return window.parseInt( value );
+		return window.parseInt(value);
 	};
 	this.reset = function () {
 		value = 0;
@@ -55,31 +55,31 @@ kniffel.sEntry = function ( id ) {
 	};
 };
 
-kniffel.Sum = function ( id ) {
+kniffel.Sum = function (id) {
 	"use strict";
 	var value = [];
-	
-	this.element = $( id ).getElementsByTagName( "span" )[ 0 ];
-	
-	this.add = function ( x ) {
-		value.push( x );
-		this.element.innerHTML = util.leadZero( this.getValue() );
+
+	this.element = $(id).getElementsByTagName("span")[0];
+
+	this.add = function (x) {
+		value.push(x);
+		this.element.innerHTML = util.leadZero(this.getValue());
 	};
-	
+
 	this.undo = function () {
 		var x = value.pop();
-		this.element.innerHTML = util.leadZero( this.getValue() );
+		this.element.innerHTML = util.leadZero(this.getValue());
 	};
-	
+
 	this.getValue = function () {
 		var i, l = value.length,
-		s = 0;
-		for ( i = 0; i < l; i += 1) {
-			s += value[ i ];
+			s = 0;
+		for (i = 0; i < l; i += 1) {
+			s += value[i];
 		}
 		return s;
 	};
-	
+
 	this.reset = function () {
 		value = [];
 		this.element.innerHTML = "  ";
@@ -89,48 +89,48 @@ kniffel.Sum = function ( id ) {
 kniffel.Bonus = function (id) {
 	"use strict";
 	var $this = this,
-	value = 0,
-	stack = [],
-	given = false,
-	getvalue = function () {
-		var i, l = stack.length,
-		x = 0;
-		for ( i = 0; i < l; i += 1 ) {
-			x += stack[ i ];
-		}
-		return x;
-	},
-	calc = function () {
-		var x = getvalue();
-		if ( x >= 63 && !given ) {
-			value = 35;
-			$this.element.innerHTML = value;
-			given = true;
-			return true;
-		}
-		return false;
-	};
-	
-	this.element = $( id ).getElementsByTagName( "span" )[ 0 ];
-	
-	this.add = function ( x ) {
-		stack.push( x );
+		value = 0,
+		stack = [],
+		given = false,
+		getvalue = function () {
+			var i, l = stack.length,
+				x = 0;
+			for (i = 0; i < l; i += 1) {
+				x += stack[i];
+			}
+			return x;
+		},
+		calc = function () {
+			var x = getvalue();
+			if (x >= 63 && !given) {
+				value = 35;
+				$this.element.innerHTML = value;
+				given = true;
+				return true;
+			}
+			return false;
+		};
+
+	this.element = $(id).getElementsByTagName("span")[0];
+
+	this.add = function (x) {
+		stack.push(x);
 		return calc();
 	};
-	
+
 	this.undo = function () {
 		stack.pop();
 		return calc();
 	};
-		
+
 	this.given = function () {
 		return given;
 	};
-	
+
 	this.getValue = function () {
 		return value;
 	};
-	
+
 	this.reset = function () {
 		given = false;
 		value = 0;
@@ -139,14 +139,14 @@ kniffel.Bonus = function (id) {
 	};
 };
 
-kniffel.Togo = function ( id ) {
+kniffel.Togo = function (id) {
 	"use strict";
 	var value = 3;
-	
-	this.element = $( id ).getElementsByTagName( "span" )[ 0 ];
-	
+
+	this.element = $(id).getElementsByTagName("span")[0];
+
 	this.decrement = function () {
-		if ( value > 0 ) {
+		if (value > 0) {
 			value -= 1;
 			this.element.innerHTML = value + "";
 			return true;
@@ -155,13 +155,13 @@ kniffel.Togo = function ( id ) {
 			return false;
 		}
 	};
-	
+
 	this.reset = function () {
 		value = 3;
 		this.element.innerHTML = value + "";
 		return true;
 	};
-	
+
 	this.zero = function () {
 		value = 0;
 		this.element.innerHTML = "0";

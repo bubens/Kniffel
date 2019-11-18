@@ -95,7 +95,7 @@ function check_compress ($compress) {
 };
 
 function checkName($name) {
-	$l = count($name);
+	$l = strlen($name);
 	if ($l > 0 && $l <= 8 && preg_match("/^[\w\d]+$/", $name)) {
 		return $name;
 	}

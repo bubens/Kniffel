@@ -5,15 +5,15 @@
 util.event = (function () {
 	"use strict";
 	return {
-		guid : 1,
-		
+		guid: 1,
+
 		//dean edwards addEvent solution (slightly modified)
 		//for details see http://dean.edwards.name/weblog/2005/10/add-event/	
-		add : function (element, type, handler) {
+		add: function (element, type, handler) {
 			var handlers;
 			if (element.addEventListener) {
 				element.addEventListener(type, handler, false);
-			} 
+			}
 			else {
 				if (!handler.$$guid) {
 					handler.$$guid = addEvent.guid++;
@@ -32,7 +32,7 @@ util.event = (function () {
 				element["on" + type] = util.event.handle;
 			}
 		},
-		remove : function (element, type, handler) {
+		remove: function (element, type, handler) {
 			if (element.removeEventListener) {
 				element.removeEventListener(type, handler, false);
 			}
@@ -54,18 +54,18 @@ util.event = (function () {
 			}
 			return returnValue;
 		},
-		fix : function (event) {
+		fix: function (event) {
 			event.preventDefault = util.event.preventDefault;
 			event.stopPropagation = util.event.stopPropagation;
 			return event;
 		},
-		preventDefault : function() {
+		preventDefault: function () {
 			this.returnValue = false;
 		},
-		stopPropagation : function() {
+		stopPropagation: function () {
 			this.cancelBubble = true;
 		}
 	};
 }());
-	
+
 

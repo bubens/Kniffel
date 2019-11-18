@@ -1,8 +1,8 @@
 /* jshint strict:true */
 
 var util = {
-	version : "0.0.0a",
-	author : "bubens van lyka"
+	version: "0.0.0a",
+	author: "bubens van lyka"
 };
 
 Array.convert = function (a) {
@@ -43,7 +43,7 @@ util.error = function (error) {
 	"use strict";
 	var e = new Error();
 	e.name = error.what;
-	e.message = error.why+" (at "+error.where+")";
+	e.message = error.why + " (at " + error.where + ")";
 	throw e;
 };
 
@@ -53,7 +53,7 @@ util.leadZero = function (x) {
 };
 
 util.string = {
-	trim : function (str) {
+	trim: function (str) {
 		"use strict";
 		str = str.replace(/^\s+/, "").replace(/\s+$/, "");
 		return str;

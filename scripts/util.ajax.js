@@ -4,17 +4,17 @@
 util.ajax = (function () {
 	"use strict";
 	var ajax = {},
-		
-	getRequest = function () {
-		return window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
-	};
-		
+
+		getRequest = function () {
+			return window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
+		};
+
 	ajax.setRequest = function (type, url, orsc, headers) {
-		var request = getRequest(),	
+		var request = getRequest(),
 			p, q;
 		request.open(type, url, true);
 		request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-		
+
 		if (headers && headers.type == "object") {
 			for (q in headers) {
 				if (headers.hasOwnProperty(q)) {
@@ -22,7 +22,7 @@ util.ajax = (function () {
 				}
 			}
 		}
-		
+
 		if (orsc.type === "object") {
 			request.onreadystatechange = function () {
 				if (request.status === 4) {
@@ -41,22 +41,22 @@ util.ajax = (function () {
 				}
 			};
 		}
-		
+
 		return request;
 	};
-		
+
 	ajax.get = function (url, params, orsc, headers) {
 		var request = ajax.setRequest("get", url, orsc);
 		request.send(params);
 		return true;
 	};
-		
+
 	ajax.post = function (url, params, orsc, headers) {
-		var request = ajax.setRequest("post", url, orsc, {"Content-Type": "application/x-www-form-urlencoded"});
+		var request = ajax.setRequest("post", url, orsc, { "Content-Type": "application/x-www-form-urlencoded" });
 		request.send(params);
 	};
-	
+
 	ajax.version = "0.2.0";
-	
+
 	return ajax;
 }());
